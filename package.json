@@ -1,0 +1,19 @@
+{
+  "name": "jra-masterclass",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Registration site for the JRA Junk Removal Masterclass Series",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "export": "node scripts/export-csv.mjs"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}

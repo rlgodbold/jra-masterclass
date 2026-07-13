@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Junk Removal Masterclass Series — Free Weekly Live Training for Junk Removal Owners</title>
+<meta name="description" content="A free weekly live masterclass for junk removal owners. One topic each week — trucks, marketing, pricing, hiring, operations, money — taught live by Lee Godbold of Junk Removal Authority. Register once, join every class." />
+<meta property="og:title" content="The Junk Removal Masterclass Series — Free Weekly Live Training" />
+<meta property="og:description" content="Build a junk removal business that runs without you. A free live class every week for junk removal owners — trucks, marketing, pricing, hiring, operations, and money. Hosted by Lee Godbold (JRA)." />
+<meta property="og:type" content="website" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#ffffff; --soft:#f1f5f9; --tint:#eff6ff; --card:#ffffff;
+    --line:#e2e8f0; --ink:#0f172a; --body:#475569; --muted:#64748b;
+    --blue:#2563eb; --blue-deep:#1d4ed8; --blue-tint:#dbeafe; --green:#16a34a;
+    --amber:#d97706; --radius:16px; --maxw:1140px;
+    --shadow:0 1px 2px rgba(15,23,42,.04), 0 12px 30px -16px rgba(15,23,42,.18);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:'Inter',-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--body);line-height:1.6;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 22px}
+  a{color:inherit}
+  .accent{color:var(--blue)}
+
+  .topbar{display:flex;align-items:center;justify-content:space-between;padding:18px 0}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:19px;letter-spacing:-.01em;color:var(--ink)}
+  .brand .dot{width:30px;height:30px;border-radius:9px;background:var(--blue);display:grid;place-items:center}
+  .brand .dot svg{width:17px;height:17px}
+  .topbar .when-pill{font-size:13px;color:var(--blue-deep);background:var(--tint);padding:7px 14px;border-radius:999px;font-weight:600}
+
+  .hero{position:relative;padding:26px 0 60px;background:radial-gradient(900px 380px at 80% -8%, #eff6ff 0%, rgba(239,246,255,0) 70%)}
+  .hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:46px;align-items:center}
+  .forwho{display:inline-flex;align-items:center;gap:7px;background:var(--tint);color:var(--blue-deep);font-weight:700;font-size:12.5px;letter-spacing:.02em;padding:7px 13px;border-radius:999px;margin-bottom:18px}
+  .forwho .live{width:8px;height:8px;border-radius:50%;background:var(--blue);animation:pulse 2s infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(37,99,235,.5)}70%{box-shadow:0 0 0 8px rgba(37,99,235,0)}100%{box-shadow:0 0 0 0 rgba(37,99,235,0)}}
+  h1{font-size:clamp(31px,4.3vw,50px);line-height:1.08;letter-spacing:-.025em;font-weight:800;color:var(--ink);margin-bottom:16px}
+  .sub{font-size:clamp(16px,1.4vw,18.5px);color:var(--body);max-width:560px;margin-bottom:18px}
+  .sub b{color:var(--ink);font-weight:600}
+  .byline{display:flex;align-items:center;gap:11px;margin-bottom:22px}
+  .byline img{width:48px;height:48px;border-radius:50%;object-fit:cover;object-position:center 18%;border:2px solid #fff;box-shadow:var(--shadow)}
+  .byline span{font-size:13.5px;color:var(--muted);line-height:1.35}
+  .byline b{color:var(--ink);font-weight:600}
+  .meta-row{display:flex;flex-wrap:wrap;gap:10px 22px}
+  .meta-row .m{display:flex;align-items:center;gap:8px;font-size:15px;color:var(--ink);font-weight:500}
+  .meta-row .m svg{width:18px;height:18px;color:var(--blue)}
+  .countdown{display:flex;gap:10px;margin-top:24px}
+  .cd-box{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:11px 0;min-width:64px;text-align:center;box-shadow:var(--shadow)}
+  .cd-box .n{font-size:25px;font-weight:800;line-height:1;font-variant-numeric:tabular-nums;color:var(--blue)}
+  .cd-box .l{font-size:10.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-top:6px}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:28px;box-shadow:var(--shadow)}
+  .card .free{display:inline-block;background:#dcfce7;color:#166534;font-weight:800;font-size:12px;letter-spacing:.04em;padding:5px 11px;border-radius:999px;text-transform:uppercase;margin-bottom:14px}
+  .card h2{font-size:21px;font-weight:800;letter-spacing:-.01em;color:var(--ink);margin-bottom:6px}
+  .card p.lead{color:var(--muted);font-size:14.5px;margin-bottom:18px}
+  .field{margin-bottom:13px}
+  .field label{display:block;font-size:13px;font-weight:600;color:var(--ink);margin-bottom:7px}
+  .field input{width:100%;background:#f8fafc;border:1px solid var(--line);border-radius:10px;padding:14px 15px;color:var(--ink);font-size:16px;font-family:inherit;transition:border-color .15s,box-shadow .15s}
+  .field input::placeholder{color:#94a3b8}
+  .field input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,.15);background:#fff}
+  .btn{width:100%;background:var(--blue);color:#fff;border:none;border-radius:12px;padding:16px;font-size:16.5px;font-weight:700;font-family:inherit;cursor:pointer;transition:background .15s,transform .08s;box-shadow:0 8px 20px -8px rgba(37,99,235,.6)}
+  .btn:hover{background:var(--blue-deep)}
+  .btn:active{transform:translateY(1px)}
+  .btn:disabled{opacity:.6;cursor:not-allowed}
+  .reassure{display:flex;align-items:center;justify-content:center;gap:14px;color:var(--green);font-size:12.5px;font-weight:500;margin-top:13px}
+  .reassure span{display:flex;align-items:center;gap:5px}
+  .reassure svg{width:14px;height:14px}
+  .form-err{color:#dc2626;font-size:13.5px;margin-top:10px;display:none}
+
+  .success{display:none;text-align:center;padding:8px 0}
+  .success .check{width:64px;height:64px;border-radius:50%;background:#dcfce7;display:grid;place-items:center;margin:0 auto 18px}
+  .success .check svg{width:32px;height:32px;color:var(--green)}
+  .success h2{margin-bottom:8px;color:var(--ink);font-size:21px;font-weight:800}
+  .success p{color:var(--muted);font-size:15px;margin-bottom:20px}
+  .success .joinbtn{display:inline-block;background:var(--blue);color:#fff;text-decoration:none;padding:14px 26px;border-radius:12px;font-weight:700;font-size:16px}
+  .success .smallnote{color:var(--muted);font-size:13px;margin-top:16px}
+
+  section.block{padding:62px 0}
+  section.alt{background:var(--soft)}
+  .kicker{color:var(--blue);font-weight:700;font-size:13px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:13px;text-align:center}
+  h2.section-title{font-size:clamp(25px,3.2vw,37px);font-weight:800;letter-spacing:-.02em;color:var(--ink);text-align:center;max-width:760px;margin:0 auto 14px}
+  .section-sub{text-align:center;color:var(--body);max-width:600px;margin:0 auto 44px;font-size:17px}
+
+  /* Next-class spotlight */
+  .spot{max-width:900px;margin:0 auto;background:var(--card);border:2px solid var(--blue);border-radius:var(--radius);padding:32px;box-shadow:var(--shadow)}
+  .spot .badge{display:inline-flex;align-items:center;gap:7px;background:var(--blue-tint);color:var(--blue-deep);font-weight:700;font-size:12.5px;letter-spacing:.02em;padding:6px 12px;border-radius:999px;margin-bottom:14px}
+  .spot .badge .live{width:8px;height:8px;border-radius:50%;background:var(--blue);animation:pulse 2s infinite}
+  .spot h3{font-size:clamp(22px,2.6vw,30px);font-weight:800;letter-spacing:-.02em;color:var(--ink);margin-bottom:6px}
+  .spot .when{color:var(--blue-deep);font-weight:600;font-size:15px;margin-bottom:20px}
+  .spot ul{list-style:none;display:grid;gap:12px}
+  .spot li{display:flex;gap:11px;align-items:flex-start;font-size:15.5px;color:var(--ink);line-height:1.45}
+  .spot li svg{flex:0 0 auto;width:20px;height:20px;color:var(--green);margin-top:1px}
+  .spot .cta{margin-top:24px}
+  .spot .cta a{display:inline-block;background:var(--blue);color:#fff;text-decoration:none;padding:13px 24px;border-radius:12px;font-weight:700;font-size:15.5px;box-shadow:0 8px 20px -8px rgba(37,99,235,.6)}
+
+  /* Calendar */
+  .cal{max-width:760px;margin:0 auto;display:grid;gap:10px}
+  .cal .crow{display:flex;align-items:center;gap:16px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:15px 18px;box-shadow:var(--shadow)}
+  .cal .crow.next{border:2px solid var(--blue)}
+  .cal .date{flex:0 0 auto;width:118px;font-weight:700;color:var(--ink);font-size:14.5px;line-height:1.25}
+  .cal .date .dow{color:var(--muted);font-weight:600;font-size:12px;display:block}
+  .cal .topic{flex:1 1 auto;font-size:15.5px;color:var(--ink);font-weight:600}
+  .cal .topic.tbd{color:var(--muted);font-weight:500;font-style:italic}
+  .cal .flag{flex:0 0 auto;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--blue-deep);background:var(--blue-tint);padding:4px 9px;border-radius:999px}
+  .cal-note{text-align:center;color:var(--muted);font-size:14px;margin-top:22px}
+
+  /* Topic pillars */
+  .pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;max-width:960px;margin:0 auto}
+  .pillar{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow)}
+  .pillar .ic{width:46px;height:46px;border-radius:12px;background:var(--tint);display:grid;place-items:center;margin-bottom:14px}
+  .pillar .ic svg{width:23px;height:23px;color:var(--blue)}
+  .pillar h3{font-size:17.5px;font-weight:700;color:var(--ink);margin-bottom:6px;letter-spacing:-.01em}
+  .pillar p{color:var(--body);font-size:14px}
+
+  .whyfree{max-width:680px;margin:32px auto 0;background:var(--tint);border:1px solid var(--blue-tint);border-radius:var(--radius);padding:22px 24px;display:flex;gap:15px;align-items:flex-start}
+  .whyfree svg{flex:0 0 auto;width:26px;height:26px;color:var(--blue);margin-top:1px}
+  .whyfree p{color:var(--body);font-size:15px;margin:0}
+  .whyfree b{color:var(--ink)}
+
+  .host{display:grid;grid-template-columns:auto 1fr;gap:26px;align-items:center;max-width:760px;margin:0 auto;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:30px;box-shadow:var(--shadow)}
+  .host .photo{width:128px;height:160px;border-radius:16px;object-fit:cover;object-position:center 18%;box-shadow:var(--shadow)}
+  .host h3{font-size:21px;font-weight:800;color:var(--ink);margin-bottom:2px}
+  .host .role{color:var(--blue);font-weight:600;font-size:14.5px;margin-bottom:10px}
+  .host p{color:var(--body);font-size:15px}
+
+  .finalcta{background:linear-gradient(180deg,#ffffff,#eff6ff)}
+  .finalcta-inner{text-align:center}
+  .finalcta .when-big{display:inline-flex;align-items:center;gap:10px;font-size:16px;color:var(--ink);border:1px solid var(--line);background:var(--card);padding:10px 18px;border-radius:999px;margin-bottom:24px;font-weight:600;box-shadow:var(--shadow)}
+  .finalcta .btn{max-width:340px;margin:0 auto}
+
+  footer{border-top:1px solid var(--line);padding:30px 0;text-align:center;color:var(--muted);font-size:13px}
+  footer .brand{justify-content:center;margin-bottom:10px;font-size:16px}
+
+  @media(max-width:860px){
+    .hero{padding:12px 0 44px}
+    .hero-grid{grid-template-columns:1fr;gap:30px}
+    .pillars{grid-template-columns:1fr}
+    .host{grid-template-columns:1fr;text-align:center}
+    .host .photo{margin:0 auto}
+    .topbar .when-pill{display:none}
+    .cal .crow{flex-wrap:wrap;gap:8px 16px}
+    .cal .date{width:auto}
+    section.block{padding:48px 0}
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <div class="topbar">
+    <div class="brand">
+      <span class="dot"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 16.5V8a2 2 0 0 0-2-2H3v10.5"/><path d="M14 9h4l3 3.5V16.5h-7"/><circle cx="6.5" cy="17.5" r="1.9"/><circle cx="17" cy="17.5" r="1.9"/></svg></span>
+      JRA Masterclass
+    </div>
+    <div class="when-pill" id="topPill">Free weekly class · loading…</div>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="forwho"><span class="live"></span> Free weekly live masterclass series for junk removal owners</span>
+      <h1>Build a junk removal business that <span class="accent">runs without you.</span></h1>
+      <p class="sub">Every week, one topic — <b>trucks, marketing, pricing, hiring, operations, money</b> — taught live by <b>Lee Godbold</b> of Junk Removal Authority. Register once and join every class, free.</p>
+      <div class="byline">
+        <img src="/lee.jpg" alt="Lee Godbold" />
+        <span>Hosted by <b>Lee Godbold</b><br>Founder, Junk Removal Authority</span>
+      </div>
+      <div class="meta-row">
+        <div class="m"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg> <span id="dateMeta">—</span></div>
+        <div class="m"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg> <span id="timeMeta">—</span></div>
+        <div class="m"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg> Live on Zoom</div>
+      </div>
+      <div class="countdown" id="countdown" aria-label="Time until the next class starts">
+        <div class="cd-box"><div class="n" id="cdD">--</div><div class="l">Days</div></div>
+        <div class="cd-box"><div class="n" id="cdH">--</div><div class="l">Hours</div></div>
+        <div class="cd-box"><div class="n" id="cdM">--</div><div class="l">Mins</div></div>
+        <div class="cd-box"><div class="n" id="cdS">--</div><div class="l">Secs</div></div>
+      </div>
+    </div>
+
+    <div class="card" id="formCard">
+      <div id="formState">
+        <span class="free">100% Free</span>
+        <h2>Save my seat</h2>
+        <p class="lead">One signup puts you on the list for the whole series — you'll get every week's topic and join link by email.</p>
+        <form id="regForm" novalidate>
+          <div class="field">
+            <label for="name">Your name</label>
+            <input id="name" name="name" type="text" autocomplete="name" placeholder="Jane Smith" required />
+          </div>
+          <div class="field">
+            <label for="email">Email address</label>
+            <input id="email" name="email" type="email" autocomplete="email" placeholder="you@yourcompany.com" required />
+          </div>
+          <button class="btn" type="submit" id="submitBtn">Save my seat — it's free →</button>
+          <div class="form-err" id="formErr"></div>
+          <div class="reassure">
+            <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg> No spam</span>
+            <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg> Unsubscribe anytime</span>
+          </div>
+        </form>
+      </div>
+      <div class="success" id="successState">
+        <div class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg></div>
+        <h2>You're in the series! 🎉</h2>
+        <p id="successWhen">Check your email for the confirmation and join details.</p>
+        <a class="joinbtn" id="joinBtn" href="#" style="display:none" target="_blank" rel="noopener">Join on Zoom</a>
+        <p class="smallnote">A confirmation is on its way. We'll email you each week's topic and join link — no need to sign up again.</p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="block alt">
+  <div class="wrap">
+    <div class="kicker">Next class</div>
+    <h2 class="section-title" id="spotTitle">This week's masterclass</h2>
+    <p class="section-sub">The class that swaps in each week. Here's what's next.</p>
+    <div class="spot" id="spot">
+      <span class="badge"><span class="live"></span> <span id="spotBadge">Next class</span></span>
+      <h3 id="spotHead">The Junk Truck Masterclass</h3>
+      <div class="when" id="spotWhen">—</div>
+      <ul id="spotList"></ul>
+      <div class="cta"><a href="#" onclick="focusForm(event)">Save my seat — it's free →</a></div>
+    </div>
+  </div>
+</section>
+
+<section class="block">
+  <div class="wrap">
+    <div class="kicker">The schedule</div>
+    <h2 class="section-title">Every week. One topic. Live.</h2>
+    <p class="section-sub">The series runs weekly at 2:30 PM ET. A new topic is announced each week by email — register once and you're on the list for all of them.</p>
+    <div class="cal" id="cal"></div>
+    <p class="cal-note">📩 New topic announced each week by email. Skipping the holiday weeks (Thanksgiving + Christmas/New Year).</p>
+  </div>
+</section>
+
+<section class="block alt">
+  <div class="wrap">
+    <div class="kicker">The curriculum</div>
+    <h2 class="section-title">Six pillars of a junk removal business that runs itself</h2>
+    <p class="section-sub">Over the series we work through everything it takes to own a business, not just a job.</p>
+    <div class="pillars">
+      <div class="pillar">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 16.5V8a2 2 0 0 0-2-2H3v10.5"/><path d="M14 9h4l3 3.5V16.5h-7"/><circle cx="6.5" cy="17.5" r="1.9"/><circle cx="17" cy="17.5" r="1.9"/></svg></div>
+        <h3>Trucks &amp; Equipment</h3>
+        <p>Spec the right rig and build-out — the gear that pays for itself and the graphics that make it a rolling billboard.</p>
+      </div>
+      <div class="pillar">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/></svg></div>
+        <h3>Marketing &amp; Lead Gen</h3>
+        <p>Where the calls actually come from, and how to keep your phone ringing without lighting money on fire.</p>
+      </div>
+      <div class="pillar">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+        <h3>Pricing &amp; Sales</h3>
+        <p>Price with confidence, quote on the phone, and stop leaving money on the truck.</p>
+      </div>
+      <div class="pillar">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+        <h3>Hiring &amp; Teams</h3>
+        <p>Find, train, and keep crews you can hand the keys to — so the business doesn't stop when you do.</p>
+      </div>
+      <div class="pillar">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9c.2.61.79 1 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></div>
+        <h3>Operations &amp; Systems</h3>
+        <p>The routing, dispatch, and standard operating procedures that turn chaos into a machine.</p>
+      </div>
+      <div class="pillar">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/><circle cx="12" cy="14.5" r="1.6"/></svg></div>
+        <h3>Money, Financing &amp; Exit</h3>
+        <p>Financing, tax strategy, and building an asset you could one day sell — the endgame most owners never plan for.</p>
+      </div>
+    </div>
+    <div class="whyfree">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+      <p><b>Why free?</b> Junk Removal Authority has helped hundreds of owners build and scale. This series is how we teach in the open — real, practical, live. Come with your questions; there's Q&amp;A every week.</p>
+    </div>
+  </div>
+</section>
+
+<section class="block">
+  <div class="wrap">
+    <div class="kicker">Your host</div>
+    <h2 class="section-title">Taught live by Lee Godbold</h2>
+    <div class="host">
+      <img class="photo" src="/lee.jpg" alt="Lee Godbold, Founder of Junk Removal Authority" />
+      <div>
+        <h3>Lee Godbold</h3>
+        <div class="role">Founder, Junk Removal Authority</div>
+        <p>Lee has helped hundreds of junk removal owners build and scale their businesses. Each week in this series he teaches one piece of the puzzle live — from specing a truck to pricing, hiring, and building a company that runs without you — and answers your questions on the spot.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block finalcta">
+  <div class="wrap finalcta-inner">
+    <div class="when-big">
+      <svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" style="width:18px;height:18px"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+      <span id="finalWhen">—</span>
+    </div>
+    <h2 class="section-title">Save your seat — it's free.</h2>
+    <p class="section-sub">One signup, every class. Register once and we'll bring the masterclass to your inbox each week.</p>
+    <button class="btn" onclick="focusForm(event)">Save my seat — it's free →</button>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="brand"><span class="dot"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 16.5V8a2 2 0 0 0-2-2H3v10.5"/><path d="M14 9h4l3 3.5V16.5h-7"/><circle cx="6.5" cy="17.5" r="1.9"/><circle cx="17" cy="17.5" r="1.9"/></svg></span> JRA Masterclass</div>
+    <div>© <span id="yr">2026</span> Junk Removal Authority · The Junk Removal Masterclass Series</div>
+  </div>
+</footer>
+
+<script>
+let WEBINAR=null, SESSIONS=[], cdTarget=null;
+const $=(id)=>document.getElementById(id);
+
+// Truck-class spotlight bullets (the launch class). Any other topic falls back
+// to a generic block so the spotlight degrades gracefully as the series rolls.
+const TRUCK_TOPIC="The Junk Truck Masterclass";
+const TRUCK_BULLETS=[
+  "Isuzu vs. truck-and-trailer — settled by <b>your</b> end goal, not by specs",
+  "Spec the right cab &amp; chassis for junk duty",
+  "The build-out that pays for itself: ramps, winch, lift gate, toolbox, bumper, light guards",
+  "Financing with guest Paul Lilley — Section 179, down payments, and the 2-year threshold",
+  "The $35/job truck fund: how one truck pays for the next",
+  "A walkaround of a real JRA rig",
+  "A founders-only truck offer for live attendees"
+];
+const GENERIC_BULLETS=[
+  "A fresh, practical topic for junk removal owners — announced by email",
+  "Live and unscripted, built from real junk removal businesses",
+  "Bring your questions — there's Q&amp;A every week"
+];
+const check='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M20 6L9 17l-5-5"/></svg>';
+
+function focusForm(e){
+  if(e)e.preventDefault();
+  const n=$('name');
+  n.scrollIntoView({behavior:'smooth',block:'center'});
+  setTimeout(()=>n.focus(),400);
+}
+
+function applySession(sess){
+  if(!sess){
+    $('topPill').textContent='Free weekly class · new dates coming soon';
+    $('dateMeta').textContent='New dates coming soon';
+    $('timeMeta').textContent='—';
+    $('finalWhen').textContent='New dates coming soon';
+    cdTarget=null;
+    renderSpotlight(null);
+    return;
+  }
+  const w=sess.when;
+  $('topPill').textContent='Next class · '+w.full;
+  $('dateMeta').textContent=w.dateStr;
+  $('timeMeta').textContent=w.timeStr+' '+WEBINAR.timezoneLabel;
+  $('finalWhen').textContent=w.full;
+  cdTarget=new Date(sess.startsAtISO).getTime();
+  renderSpotlight(sess);
+}
+
+function renderSpotlight(sess){
+  if(!sess){
+    $('spotTitle').textContent='More classes coming soon';
+    $('spotBadge').textContent='Coming soon';
+    $('spotHead').textContent='New dates announced soon';
+    $('spotWhen').textContent='';
+    $('spotList').innerHTML='';
+    return;
+  }
+  const topic=sess.topic||(sess.when&&sess.when.topic)||null;
+  const dow=(sess.when.dateStr||'').split(',')[0]||'This week';
+  $('spotBadge').textContent='This '+dow;
+  $('spotWhen').textContent=sess.when.full;
+  if(topic){
+    $('spotTitle').textContent='This '+dow+': '+topic;
+    $('spotHead').textContent=topic;
+  }else{
+    $('spotTitle').textContent="This "+dow+"'s masterclass";
+    $('spotHead').textContent='Topic announced soon';
+  }
+  const bullets=(topic===TRUCK_TOPIC)?TRUCK_BULLETS:GENERIC_BULLETS;
+  $('spotList').innerHTML=bullets.map((b)=>'<li>'+check+'<span>'+b+'</span></li>').join('');
+}
+
+function renderCalendar(){
+  const el=$('cal');
+  if(!SESSIONS.length){el.innerHTML='<div class="cal-note">New dates coming soon.</div>';return;}
+  const currentId=(WEBINAR.current&&WEBINAR.current.id)||(SESSIONS[0]&&SESSIONS[0].id);
+  el.innerHTML=SESSIONS.slice(0,7).map((s)=>{
+    const w=s.when;
+    const parts=(w.dateStr||'').split(', ');
+    const dow=parts[0]||'';
+    const md=parts.slice(1).join(', ')||w.dateStr;
+    const topic=s.topic||(w&&w.topic)||null;
+    const isNext=s.id===currentId;
+    const topicHtml=topic
+      ? '<div class="topic">'+topic+'</div>'
+      : '<div class="topic tbd">Topic announced soon</div>';
+    return '<div class="crow'+(isNext?' next':'')+'">'
+      +'<div class="date">'+md+'<span class="dow">'+dow+' · '+w.timeStr+' '+WEBINAR.timezoneLabel+'</span></div>'
+      +topicHtml
+      +(isNext?'<span class="flag">Next up</span>':'')
+      +'</div>';
+  }).join('');
+}
+
+async function loadWebinar(){
+  try{
+    const r=await fetch('/api/webinar');
+    WEBINAR=await r.json();
+    SESSIONS=WEBINAR.sessions||[];
+    if(SESSIONS.length){
+      const cur=(WEBINAR.current&&SESSIONS.find((s)=>s.id===WEBINAR.current.id))||SESSIONS[0];
+      applySession(cur);
+      renderCalendar();
+    }else{
+      applySession(null);
+      renderCalendar();
+    }
+  }catch(e){}
+}
+
+function startCountdown(){
+  const D=$('cdD'),H=$('cdH'),M=$('cdM'),S=$('cdS');
+  function tick(){
+    if(!cdTarget){D.textContent='--';H.textContent='--';M.textContent='--';S.textContent='--';return;}
+    let diff=Math.max(0,cdTarget-Date.now());
+    const d=Math.floor(diff/86400000);diff-=d*86400000;
+    const h=Math.floor(diff/3600000);diff-=h*3600000;
+    const m=Math.floor(diff/60000);diff-=m*60000;
+    const s=Math.floor(diff/1000);
+    D.textContent=String(d);H.textContent=String(h).padStart(2,'0');
+    M.textContent=String(m).padStart(2,'0');S.textContent=String(s).padStart(2,'0');
+  }
+  tick();setInterval(tick,1000);
+}
+
+const form=$('regForm'),errEl=$('formErr'),btn=$('submitBtn');
+form.addEventListener('submit',async(e)=>{
+  e.preventDefault();errEl.style.display='none';
+  const name=$('name').value.trim();
+  const email=$('email').value.trim();
+  if(!name){showErr('Please enter your name.');return;}
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){showErr('Please enter a valid email.');return;}
+  btn.disabled=true;btn.textContent='Saving your seat…';
+  try{
+    const params=new URLSearchParams(window.location.search);
+    const res=await fetch('/api/register',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name,email,source:params.get('utm_source')||''})});
+    const data=await res.json();
+    if(!res.ok){showErr(data.error||'Something went wrong. Try again.');btn.disabled=false;btn.textContent='Save my seat — it\'s free →';return;}
+    $('formState').style.display='none';
+    const ss=$('successState');ss.style.display='block';
+    if(data.when)$('successWhen').textContent="You're on the list — first class "+data.when+". Check your email for the confirmation.";
+    if(data.zoomJoinUrl){const jb=$('joinBtn');jb.href=data.zoomJoinUrl;jb.style.display='inline-block';}
+    ss.scrollIntoView({behavior:'smooth',block:'center'});
+  }catch(err){showErr('Network error. Please try again.');btn.disabled=false;btn.textContent='Save my seat — it\'s free →';}
+});
+function showErr(m){errEl.textContent=m;errEl.style.display='block';}
+$('yr').textContent=new Date().getFullYear();
+loadWebinar();startCountdown();
+</script>
+</body>
+</html>

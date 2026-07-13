@@ -1,0 +1,38 @@
+services:
+  - type: web
+    name: jra-masterclass
+    runtime: node
+    plan: starter
+    buildCommand: npm install
+    startCommand: npm start
+    autoDeploy: true
+    healthCheckPath: /api/webinar
+    disk:
+      name: registrations
+      mountPath: /var/data
+      sizeGB: 1
+    envVars:
+      - key: DATA_DIR
+        value: /var/data
+      - key: NODE_VERSION
+        value: "20"
+      - key: PUBLIC_BASE_URL
+        value: https://masterclass.junkra.com
+      - key: COMPANY_NAME
+        value: Junk Removal Authority
+      - key: COMPANY_POSTAL_ADDRESS
+        value: 950 Windy Rd. Suite 200, Apex, NC 27502
+      - key: NOTIFICATION_FROM_EMAIL
+        value: Lee Godbold <leegodbold@mailer.junkra.com>
+      - key: ATTENDEE_NOTIFY_EMAILS
+        value: lee@junkra.com,shane@junkra.com
+      # Set these in the Render dashboard (Environment tab) — do NOT commit secrets:
+      #   RESEND_API_KEY     -> reuse the same Resend key as the Jenny product stack
+      #   ADMIN_TOKEN        -> long random string; gates admin + CSV export + broadcasts
+      #   UNSUBSCRIBE_SECRET -> long random string; signs unsubscribe links
+      - key: RESEND_API_KEY
+        sync: false
+      - key: ADMIN_TOKEN
+        sync: false
+      - key: UNSUBSCRIBE_SECRET
+        sync: false

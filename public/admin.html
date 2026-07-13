@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>JRA Masterclass — Admin</title>
+<style>
+  :root{--bg:#0a0f1c;--card:#141c30;--line:#243049;--ink:#f1f5f9;--muted:#94a3b8;--green:#22c55e;--red:#ef4444}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5;padding:28px 18px}
+  .wrap{max-width:760px;margin:0 auto}
+  h1{font-size:22px;font-weight:800;margin-bottom:4px}
+  .sub{color:var(--muted);font-size:14px;margin-bottom:22px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;margin-bottom:18px}
+  label{display:block;font-size:13px;font-weight:600;color:#cbd5e1;margin:0 0 6px}
+  input,textarea{width:100%;background:#0a0f1c;border:1px solid var(--line);border-radius:9px;padding:11px 12px;color:var(--ink);font-size:14px;font-family:inherit;margin-bottom:14px}
+  textarea{min-height:150px;resize:vertical;font-family:ui-monospace,Menlo,monospace}
+  button{background:var(--green);color:#04210f;border:none;border-radius:9px;padding:11px 18px;font-size:14px;font-weight:700;cursor:pointer}
+  button.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+  .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;text-align:center}
+  .stat .n{font-size:26px;font-weight:800}
+  .stat .l{font-size:12px;color:var(--muted);margin-top:2px}
+  .note{font-size:13px;color:var(--muted);margin-top:10px}
+  .warn{background:#3a1416;border:1px solid #7f1d1d;color:#fca5a5;padding:11px 13px;border-radius:9px;font-size:13px;margin-bottom:14px;display:none}
+  .ok{color:var(--green)}
+  a{color:#7fb0ee}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Masterclass admin</h1>
+  <div class="sub">Subscriber list + email broadcasts for the Junk Removal Masterclass Series.</div>
+
+  <div class="card" id="authCard">
+    <label for="token">Admin token</label>
+    <input id="token" type="password" placeholder="Paste ADMIN_TOKEN" />
+    <button onclick="connect()">Connect</button>
+    <div class="note" id="authErr"></div>
+  </div>
+
+  <div id="app" style="display:none">
+    <div class="stats">
+      <div class="stat"><div class="n" id="sSub">–</div><div class="l">Subscribed</div></div>
+      <div class="stat"><div class="n" id="sUnsub">–</div><div class="l">Unsubscribed</div></div>
+      <div class="stat"><div class="n" id="sReg">–</div><div class="l">Total signups</div></div>
+    </div>
+
+    <div class="warn" id="addrWarn">⚠ No physical mailing address set (COMPANY_POSTAL_ADDRESS). Broadcasts are blocked until your dev sets it — it's legally required in marketing email.</div>
+
+    <div class="card" id="sessionsCard" style="display:none">
+      <strong>Registrations by session</strong>
+      <div class="note" style="margin-top:4px">Upcoming sessions and past (archived) ones. Each links to its attendee list.</div>
+      <div id="sessionsList" style="margin-top:12px"></div>
+    </div>
+
+    <div class="card">
+      <div class="row" style="justify-content:space-between;margin-bottom:14px">
+        <strong>Send a broadcast</strong>
+        <a id="csv" href="#">Download CSV ↓</a>
+      </div>
+      <label for="subj">Subject</label>
+      <input id="subj" placeholder="A quick note from Lee…" />
+      <label for="body">Body (HTML allowed — &lt;p&gt;, &lt;a&gt;, etc.)</label>
+      <textarea id="body" placeholder="<p>Hey — wanted to share…</p>"></textarea>
+      <div class="row">
+        <button onclick="sendBroadcast(true)" class="ghost">Send test to me</button>
+        <input id="testEmail" placeholder="your@email.com test address" style="flex:1;min-width:180px;margin:0" />
+      </div>
+      <div class="row" style="margin-top:14px">
+        <button onclick="sendBroadcast(false)">Send to all subscribers</button>
+        <span class="note" id="sendNote"></span>
+      </div>
+      <div class="note">Every email automatically includes your mailing address + a working unsubscribe link.</div>
+    </div>
+  </div>
+</div>
+
+<script>
+let TOKEN = "";
+const $ = (id) => document.getElementById(id);
+
+async function api(path, opts={}) {
+  const res = await fetch(path, { ...opts, headers: { ...(opts.headers||{}), "x-admin-token": TOKEN, "Content-Type":"application/json" } });
+  if (res.status === 401) throw new Error("Bad token");
+  return res;
+}
+
+async function connect() {
+  TOKEN = $("token").value.trim();
+  if (!TOKEN) return;
+  try {
+    const res = await api("/api/admin/stats");
+    if (!res.ok) throw new Error("Unauthorized");
+    const s = await res.json();
+    $("authCard").style.display = "none";
+    $("app").style.display = "block";
+    $("sSub").textContent = s.subscribed;
+    $("sUnsub").textContent = s.unsubscribed;
+    $("sReg").textContent = s.registrations;
+    $("csv").href = "/api/admin/export.csv?token=" + encodeURIComponent(TOKEN);
+    if (!s.canSend) $("addrWarn").style.display = "block";
+    renderSessions(s.bySession || []);
+  } catch (e) {
+    $("authErr").textContent = "Couldn't connect — check the token.";
+  }
+}
+
+function renderSessions(list) {
+  const card = $("sessionsCard");
+  if (!list.length) { card.style.display = "none"; return; }
+  card.style.display = "block";
+  const t = encodeURIComponent(TOKEN);
+  $("sessionsList").innerHTML = list.map((x) => {
+    const badge = x.upcoming
+      ? '<span style="font-size:11px;font-weight:700;color:#22c55e">UPCOMING</span>'
+      : '<span style="font-size:11px;font-weight:700;color:#94a3b8">ARCHIVED</span>';
+    return '<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--line)">'
+      + '<div><div style="font-size:14px;color:var(--ink)">' + x.label + ' &nbsp; ' + badge + '</div></div>'
+      + '<div style="display:flex;align-items:center;gap:12px">'
+      + '<span style="font-weight:800">' + x.count + '</span>'
+      + '<a href="/attendees?session=' + x.id + '&token=' + t + '" target="_blank">List ↗</a>'
+      + '<a href="/api/admin/export.csv?session=' + x.id + '&token=' + t + '">CSV ↓</a>'
+      + '</div></div>';
+  }).join("");
+}
+
+async function sendBroadcast(isTest) {
+  const subject = $("subj").value.trim();
+  const bodyHtml = $("body").value.trim();
+  if (!subject || !bodyHtml) { $("sendNote").textContent = "Subject and body required."; return; }
+  const payload = { subject, bodyHtml };
+  if (isTest) {
+    const t = $("testEmail").value.trim();
+    if (!t) { $("sendNote").textContent = "Enter a test address."; return; }
+    payload.testEmail = t;
+  } else if (!confirm("Send this to ALL subscribers?")) return;
+  $("sendNote").textContent = "Sending…";
+  try {
+    const res = await api("/api/admin/broadcast", { method:"POST", body: JSON.stringify(payload) });
+    const d = await res.json();
+    if (!res.ok) { $("sendNote").textContent = d.error || "Failed."; return; }
+    $("sendNote").innerHTML = isTest
+      ? '<span class="ok">Test sent to ' + d.sentTo + '</span>'
+      : '<span class="ok">Sent to ' + d.sent + ' / ' + d.recipients + '</span>';
+  } catch (e) { $("sendNote").textContent = "Error sending."; }
+}
+$("token").addEventListener("keydown", (e) => { if (e.key === "Enter") connect(); });
+</script>
+</body>
+</html>
