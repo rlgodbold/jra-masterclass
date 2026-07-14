@@ -90,6 +90,7 @@
   .spot .badge .live{width:8px;height:8px;border-radius:50%;background:var(--blue);animation:pulse 2s infinite}
   .spot h3{font-size:clamp(22px,2.6vw,30px);font-weight:800;letter-spacing:-.02em;color:var(--ink);margin-bottom:6px}
   .spot .when{color:var(--blue-deep);font-weight:600;font-size:15px;margin-bottom:20px}
+  .spot .blurb{color:var(--body);font-size:16px;line-height:1.55;margin-bottom:22px;max-width:640px}
   .spot ul{list-style:none;display:grid;gap:12px}
   .spot li{display:flex;gap:11px;align-items:flex-start;font-size:15.5px;color:var(--ink);line-height:1.45}
   .spot li svg{flex:0 0 auto;width:20px;height:20px;color:var(--green);margin-top:1px}
@@ -224,6 +225,7 @@
       <span class="badge"><span class="live"></span> <span id="spotBadge">Next class</span></span>
       <h3 id="spotHead">The Junk Truck Masterclass</h3>
       <div class="when" id="spotWhen">—</div>
+      <p class="blurb" id="spotBlurb" style="display:none"></p>
       <ul id="spotList"></ul>
       <div class="cta"><a href="#" onclick="focusForm(event)">Save my seat — it's free →</a></div>
     </div>
@@ -322,18 +324,10 @@
 let WEBINAR=null, SESSIONS=[], cdTarget=null;
 const $=(id)=>document.getElementById(id);
 
-// Truck-class spotlight bullets (the launch class). Any other topic falls back
-// to a generic block so the spotlight degrades gracefully as the series rolls.
-const TRUCK_TOPIC="The Junk Truck Masterclass";
-const TRUCK_BULLETS=[
-  "Isuzu vs. truck-and-trailer — settled by <b>your</b> end goal, not by specs",
-  "Spec the right cab &amp; chassis for junk duty",
-  "The build-out that pays for itself: ramps, winch, lift gate, toolbox, bumper, light guards",
-  "Financing with guest Paul Lilley — Section 179, down payments, and the 2-year threshold",
-  "The $35/job truck fund: how one truck pays for the next",
-  "A walkaround of a real JRA rig",
-  "A founders-only truck offer for live attendees"
-];
+// The spotlight is fully data-driven: each session carries its own
+// spotlight:{headline,blurb,bullets} from /api/webinar (sessions.js). No
+// per-class copy lives here. A session with no spotlight (topic TBD) falls back
+// to the generic block below so the section degrades gracefully week to week.
 const GENERIC_BULLETS=[
   "A fresh, practical topic for junk removal owners — announced by email",
   "Live and unscripted, built from real junk removal businesses",
@@ -367,28 +361,44 @@ function applySession(sess){
   renderSpotlight(sess);
 }
 
+function setBlurb(html){
+  const el=$('spotBlurb');
+  if(html&&String(html).trim()){el.innerHTML=html;el.style.display='';}
+  else{el.innerHTML='';el.style.display='none';}
+}
+
 function renderSpotlight(sess){
   if(!sess){
     $('spotTitle').textContent='More classes coming soon';
     $('spotBadge').textContent='Coming soon';
     $('spotHead').textContent='New dates announced soon';
     $('spotWhen').textContent='';
+    setBlurb('');
     $('spotList').innerHTML='';
     return;
   }
   const topic=sess.topic||(sess.when&&sess.when.topic)||null;
+  const spot=sess.spotlight||null;
   const dow=(sess.when.dateStr||'').split(',')[0]||'This week';
   $('spotBadge').textContent='This '+dow;
   $('spotWhen').textContent=sess.when.full;
-  if(topic){
-    $('spotTitle').textContent='This '+dow+': '+topic;
-    $('spotHead').textContent=topic;
+
+  // Headline: the class's own spotlight headline wins; otherwise derive it from
+  // the topic; otherwise the graceful "topic announced soon" framing.
+  $('spotTitle').textContent=(spot&&spot.headline)
+    ||(topic?('This '+dow+': '+topic):("This "+dow+"'s masterclass"));
+  $('spotHead').textContent=topic||(spot&&spot.headline)||'Topic announced soon';
+
+  if(spot){
+    setBlurb(spot.blurb);
+    const bullets=(spot.bullets&&spot.bullets.length)?spot.bullets:GENERIC_BULLETS;
+    $('spotList').innerHTML=bullets.map((b)=>'<li>'+check+'<span>'+b+'</span></li>').join('');
   }else{
-    $('spotTitle').textContent="This "+dow+"'s masterclass";
-    $('spotHead').textContent='Topic announced soon';
+    // No spotlight yet: if the topic is still TBD, invite the register-once flow;
+    // either way fall back to the generic "what every class is" bullets.
+    setBlurb(topic?'':"Topic announced soon — register once and we'll email it to you, with the join link, before we go live.");
+    $('spotList').innerHTML=GENERIC_BULLETS.map((b)=>'<li>'+check+'<span>'+b+'</span></li>').join('');
   }
-  const bullets=(topic===TRUCK_TOPIC)?TRUCK_BULLETS:GENERIC_BULLETS;
-  $('spotList').innerHTML=bullets.map((b)=>'<li>'+check+'<span>'+b+'</span></li>').join('');
 }
 
 function renderCalendar(){

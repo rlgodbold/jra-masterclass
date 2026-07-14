@@ -21,7 +21,7 @@ const EST = "-05:00"; // standard time, Nov 2 2026 onward
 // then every Thursday. Skipped holiday weeks: 11/26 (Thanksgiving), 12/24, 12/31.
 const DATES = [
   ["2026-07-17", EDT, "The Junk Truck Masterclass"], // launch (Friday)
-  ["2026-07-23", EDT, null], // every Thursday from here
+  ["2026-07-23", EDT, "Own the Map: Ranking on Google Maps"], // every Thursday from here
   ["2026-07-30", EDT, null],
   ["2026-08-06", EDT, null], ["2026-08-13", EDT, null], ["2026-08-20", EDT, null], ["2026-08-27", EDT, null],
   ["2026-09-03", EDT, null], ["2026-09-10", EDT, null], ["2026-09-17", EDT, null], ["2026-09-24", EDT, null],
@@ -30,10 +30,52 @@ const DATES = [
   ["2026-12-03", EST, null], ["2026-12-10", EST, null], ["2026-12-17", EST, null], // skip 12/24 + 12/31
 ];
 
+// ─────────────────────────────────────────────────────────────────────────────
+//  PER-CLASS SPOTLIGHT — the rich "next class" block on the homepage.
+//  Keyed by session id (date). Optional: a session with no entry here renders a
+//  graceful generic card ("Topic announced soon — register once, we'll email
+//  it"). The homepage reads this from /api/webinar, so there is NO hardcoded
+//  class copy in the front-end — add a class's story here and it just appears.
+//
+//    { headline, blurb, bullets:[...] }
+//  headline → the big "This <day>: …" line   blurb → one-sentence setup (may be
+//  "" to omit)   bullets → checklist of what the class covers (HTML allowed,
+//  e.g. <b>…</b>; kept honest — no guarantees).
+// ─────────────────────────────────────────────────────────────────────────────
+const SPOTLIGHTS = {
+  "2026-07-17": {
+    headline: "This Friday: The Junk Truck Masterclass",
+    blurb: "",
+    bullets: [
+      "Isuzu vs. truck-and-trailer — settled by <b>your</b> end goal, not by specs",
+      "Spec the right cab &amp; chassis for junk duty",
+      "The build-out that pays for itself: ramps, winch, lift gate, toolbox, bumper, light guards",
+      "Financing with guest Paul Lilley — Section 179, down payments, and the 2-year threshold",
+      "The $35/job truck fund: how one truck pays for the next",
+      "A walkaround of a real JRA rig",
+      "A founders-only truck offer for live attendees",
+    ],
+  },
+  "2026-07-23": {
+    headline: "This Thursday: Own the Map",
+    blurb:
+      "For local junk removal, the Google Maps &ldquo;map pack&rdquo; is where the jobs are. This week we get your Google Business Profile ranking where buyers actually look.",
+    bullets: [
+      "How Google's map pack — and the new AI answers (Ask Maps) — decide who shows up",
+      "The review engine that actually moves rank (not just star count)",
+      "The profile foundation most owners get wrong",
+      "Local links that punch above their weight",
+      "A self-audit you run live on your own profile",
+      "A free checklist to take with you",
+    ],
+  },
+};
+
 export const sessions = DATES.map(([date, off, topic]) => ({
   id: date,
   startsAtISO: `${date}${AT}${off}`,
   topic: topic || null,
+  spotlight: SPOTLIGHTS[date] || null,
   zoomJoinUrl: webinar.zoomJoinUrl, // one reusable link for the whole series
 }));
 

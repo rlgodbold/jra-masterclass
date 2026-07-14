@@ -122,6 +122,7 @@ app.get("/api/webinar", (_req, res) => {
     id: s.id,
     startsAtISO: s.startsAtISO,
     topic: s.topic || null,
+    spotlight: s.spotlight || null,
     when: formatWhen(s),
   }));
   res.json({
@@ -135,7 +136,13 @@ app.get("/api/webinar", (_req, res) => {
     // The featured (next) session + the full list of still-open sessions (the
     // series calendar). Each `when` carries the session's topic too.
     current: cur
-      ? { id: cur.id, startsAtISO: cur.startsAtISO, topic: cur.topic || null, when: formatWhen(cur) }
+      ? {
+          id: cur.id,
+          startsAtISO: cur.startsAtISO,
+          topic: cur.topic || null,
+          spotlight: cur.spotlight || null,
+          when: formatWhen(cur),
+        }
       : null,
     sessions: upcoming,
   });
