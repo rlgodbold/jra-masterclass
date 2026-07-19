@@ -17,17 +17,18 @@ const AT = "T14:30:00"; // 2:30 PM local (Eastern)
 const EDT = "-04:00"; // daylight time, through Nov 1 2026
 const EST = "-05:00"; // standard time, Nov 2 2026 onward
 
-// [date, offset, topic|null]. Friday 7/17 launch (The Junk Truck Masterclass),
-// then every Thursday. Skipped holiday weeks: 11/26 (Thanksgiving), 12/24, 12/31.
+// [date, offset, topic|null]. EVERY OTHER TUESDAY at 2:30 ET, starting 8/4.
+// Ep1 Own the Map (8/4) · Ep2 TBD (8/18) · Ep3 Junk Truck (9/1) · then biweekly.
+// Skips holiday weeks: 11/24 (Thanksgiving) + 12/22 (Christmas). The truck's
+// original 7/17 launch was cancelled (no signups) and moved to Ep3.
 const DATES = [
-  ["2026-07-17", EDT, "The Junk Truck Masterclass"], // launch (Friday)
-  ["2026-07-23", EDT, "Own the Map: Ranking on Google Maps"], // every Thursday from here
-  ["2026-07-30", EDT, null],
-  ["2026-08-06", EDT, null], ["2026-08-13", EDT, null], ["2026-08-20", EDT, null], ["2026-08-27", EDT, null],
-  ["2026-09-03", EDT, null], ["2026-09-10", EDT, null], ["2026-09-17", EDT, null], ["2026-09-24", EDT, null],
-  ["2026-10-01", EDT, null], ["2026-10-08", EDT, null], ["2026-10-15", EDT, null], ["2026-10-22", EDT, null], ["2026-10-29", EDT, null],
-  ["2026-11-05", EST, null], ["2026-11-12", EST, null], ["2026-11-19", EST, null], // skip 11/26 Thanksgiving
-  ["2026-12-03", EST, null], ["2026-12-10", EST, null], ["2026-12-17", EST, null], // skip 12/24 + 12/31
+  ["2026-08-04", EDT, "Own the Map: Ranking on Google Maps"], // Episode 1 (Tuesday)
+  ["2026-08-18", EDT, null], // Episode 2 — topic TBD
+  ["2026-09-01", EDT, "The Junk Truck Masterclass"], // Episode 3
+  ["2026-09-15", EDT, null], ["2026-09-29", EDT, null],
+  ["2026-10-13", EDT, null], ["2026-10-27", EDT, null],
+  ["2026-11-10", EST, null], // skip 11/24 Thanksgiving week
+  ["2026-12-08", EST, null], // skip 12/22 Christmas week
 ];
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -43,21 +44,8 @@ const DATES = [
 //  e.g. <b>…</b>; kept honest — no guarantees).
 // ─────────────────────────────────────────────────────────────────────────────
 const SPOTLIGHTS = {
-  "2026-07-17": {
-    headline: "This Friday: The Junk Truck Masterclass",
-    blurb: "",
-    bullets: [
-      "Isuzu vs. truck-and-trailer — settled by <b>your</b> end goal, not by specs",
-      "Spec the right cab &amp; chassis for junk duty",
-      "The build-out that pays for itself: ramps, winch, lift gate, toolbox, bumper, light guards",
-      "Financing with guest Paul Lilley — Section 179, down payments, and the 2-year threshold",
-      "The $35/job truck fund: how one truck pays for the next",
-      "A walkaround of a real JRA rig",
-      "A founders-only truck offer for live attendees",
-    ],
-  },
-  "2026-07-23": {
-    headline: "This Thursday: Own the Map",
+  "2026-08-04": {
+    headline: "This Tuesday: Own the Map",
     blurb:
       "For local junk removal, the Google Maps &ldquo;map pack&rdquo; is where the jobs are. This week we get your Google Business Profile ranking where buyers actually look.",
     bullets: [
@@ -67,6 +55,19 @@ const SPOTLIGHTS = {
       "Local links that punch above their weight",
       "A self-audit you run live on your own profile",
       "A free checklist to take with you",
+    ],
+  },
+  "2026-09-01": {
+    headline: "This Tuesday: The Junk Truck Masterclass",
+    blurb: "",
+    bullets: [
+      "Isuzu vs. truck-and-trailer — settled by <b>your</b> end goal, not by specs",
+      "Spec the right cab &amp; chassis for junk duty",
+      "The build-out that pays for itself: ramps, winch, lift gate, toolbox, bumper, light guards",
+      "Financing with guest Paul Lilley — Section 179, down payments, and the 2-year threshold",
+      "The $35/job truck fund: how one truck pays for the next",
+      "A walkaround of a real JRA rig",
+      "A founders-only truck offer for live attendees",
     ],
   },
 };
