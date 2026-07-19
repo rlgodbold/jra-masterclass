@@ -45,7 +45,7 @@ const DATES = [
 // ─────────────────────────────────────────────────────────────────────────────
 const SPOTLIGHTS = {
   "2026-08-04": {
-    headline: "This Tuesday: Own the Map",
+    headline: "Up next: Own the Map",
     blurb:
       "For local junk removal, the Google Maps &ldquo;map pack&rdquo; is where the jobs are. This week we get your Google Business Profile ranking where buyers actually look.",
     bullets: [
@@ -58,7 +58,7 @@ const SPOTLIGHTS = {
     ],
   },
   "2026-09-01": {
-    headline: "This Tuesday: The Junk Truck Masterclass",
+    headline: "Up next: The Junk Truck Masterclass",
     blurb: "",
     bullets: [
       "Isuzu vs. truck-and-trailer — settled by <b>your</b> end goal, not by specs",
