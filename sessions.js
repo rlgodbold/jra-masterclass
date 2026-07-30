@@ -22,8 +22,8 @@ const EST = "-05:00"; // standard time, Nov 2 2026 onward
 // Skips holiday weeks: 11/24 (Thanksgiving) + 12/22 (Christmas). The truck's
 // original 7/17 launch was cancelled (no signups) and moved to Ep3.
 const DATES = [
-  ["2026-08-04", EDT, "Own the Map: Ranking on Google Maps"], // Episode 1 (Tuesday)
-  ["2026-08-18", EDT, null], // Episode 2 — topic TBD
+  ["2026-08-04", EDT, "Your LSA Dashboard Is Disappearing"], // Episode 1 (Tuesday)
+  ["2026-08-18", EDT, "Own the Map: Ranking on Google Maps"], // Episode 2
   ["2026-09-01", EDT, "The Junk Truck Masterclass"], // Episode 3
   ["2026-09-15", EDT, null], ["2026-09-29", EDT, null],
   ["2026-10-13", EDT, null], ["2026-10-27", EDT, null],
@@ -45,12 +45,25 @@ const DATES = [
 // ─────────────────────────────────────────────────────────────────────────────
 const SPOTLIGHTS = {
   "2026-08-04": {
+    headline: "Up next: Your LSA Dashboard Is Disappearing",
+    blurb:
+      "Google is moving Local Services Ads into Google Ads, and home services is in the very first wave. It starts this month. Here is exactly what changes, what you lose, and what to do before your account gets migrated.",
+    bullets: [
+      "What is actually happening: LSAs become a Performance Max campaign inside Google Ads",
+      "Why junk removal is affected first, and how little warning you get (14 days, then 7)",
+      "The one thing to do <b>today</b>: your historical reports do not transfer, and the old dashboard closes for good",
+      "What you lose: manual bidding, per category cost targets, your LSA inbox, BBB callouts",
+      "What stays the same: you still pay per lead, and you still show on Search and Maps",
+      "The before, during, and after checklist, free to take with you",
+    ],
+  },
+  "2026-08-18": {
     headline: "Up next: Own the Map",
     blurb:
-      "For local junk removal, the Google Maps &ldquo;map pack&rdquo; is where the jobs are. This week we get your Google Business Profile ranking where buyers actually look.",
+      "For local junk removal, the Google Maps &ldquo;map pack&rdquo; is where the jobs are. This class gets your Google Business Profile ranking where buyers actually look.",
     bullets: [
-      "How Google's map pack — and the new AI answers (Ask Maps) — decide who shows up",
-      "The review engine that actually moves rank (not just star count)",
+      "How Google's map pack, and the new AI answers (Ask Maps), decide who shows up",
+      "The review engine that actually moves rank, not just star count",
       "The profile foundation most owners get wrong",
       "Local links that punch above their weight",
       "A self-audit you run live on your own profile",
