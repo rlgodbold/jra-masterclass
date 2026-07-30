@@ -22,7 +22,7 @@ const EST = "-05:00"; // standard time, Nov 2 2026 onward
 // Skips holiday weeks: 11/24 (Thanksgiving) + 12/22 (Christmas). The truck's
 // original 7/17 launch was cancelled (no signups) and moved to Ep3.
 const DATES = [
-  ["2026-08-04", EDT, "Your LSA Dashboard Is Disappearing"], // Episode 1 (Tuesday)
+  ["2026-08-04", EDT, "The LSA Migration: What Changes, What You Lose, What To Do"], // Episode 1 (Tuesday)
   ["2026-08-18", EDT, "Own the Map: Ranking on Google Maps"], // Episode 2
   ["2026-09-01", EDT, "The Junk Truck Masterclass"], // Episode 3
   ["2026-09-15", EDT, null], ["2026-09-29", EDT, null],
@@ -45,7 +45,7 @@ const DATES = [
 // ─────────────────────────────────────────────────────────────────────────────
 const SPOTLIGHTS = {
   "2026-08-04": {
-    headline: "Up next: Your LSA Dashboard Is Disappearing",
+    headline: "Up next: The LSA Migration",
     blurb:
       "Google is moving Local Services Ads into Google Ads, and home services is in the very first wave. It starts this month. Here is exactly what changes, what you lose, and what to do before your account gets migrated.",
     bullets: [
