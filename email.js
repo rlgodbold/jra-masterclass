@@ -154,7 +154,7 @@ export async function sendLsaAssetsEmail({ name, email, session, checklistUrl, s
     </p>
     ${nextLine}
     ${joinLine}
-    <p style="margin:0 0 16px">The founding offer from the class is still open: ten spots, one company per market. Business Profile management, LSAs, and Jenny answering every call, $750 per month locked for six months, then $1,000 per month. No ranking guarantees, no money back guarantee. To check availability, text Shane at <strong>907-982-8460</strong>.</p>
+    <p style="margin:0 0 16px">The founding offer from the class is still open: ten spots, first come. Business Profile management, LSAs, and Jenny answering every call, $750 per month locked for six months, then $1,000 per month. No ranking guarantees, no money back guarantee. To check availability, text Shane at <strong>907-982-8460</strong>.</p>
     <p style="margin:0 0 4px">Talk soon,</p>
     <p style="margin:0 0 16px"><strong>${webinar.hostName}</strong><br>${webinar.hostTitle}</p>
     ${marketingFooter(email)}
