@@ -9,6 +9,7 @@ import {
   sendMarketingEmail,
   sendReminderEmail,
   sendAttendeeNotification,
+  sendLsaAssetsEmail,
   hasPostalAddress,
 } from "./email.js";
 import { startReminderScheduler } from "./reminders.js";
@@ -113,6 +114,100 @@ app.post("/api/register", async (req, res) => {
     zoomJoinUrl: session?.zoomJoinUrl || webinar.zoomJoinUrl || null,
     when: session ? formatWhen(session).full : null,
     sessionId: session?.id || null,
+  });
+});
+
+// ── /lsa lead capture: the LSA Migration checklist + slide deck ─────────────
+// Same register-once machinery as the homepage (upsertSubscriber → consent, IP,
+// audit log, auto-attach to the next session so reminders.js picks them up).
+// Two differences: the source is tagged so these are distinguishable from live
+// registrations, and the form also collects an OPTIONAL phone + a separate,
+// unchecked SMS opt-in.
+//
+// !!! SMS IS COLLECT-ONLY. Nothing in this codebase sends a text message: no
+// Twilio, no provider, no client, no queue. Consent is banked until the A2P
+// 10DLC marketing registration is approved. Do NOT wire a sender before then.
+const LSA_SOURCE = "lsa-checklist";
+const LSA_ASSETS = {
+  checklist: "/downloads/lsa-migration-checklist.pdf",
+  slides: "/downloads/lsa-migration-masterclass-slides.pdf",
+};
+
+app.get("/lsa", (_req, res) => res.sendFile(path.join(__dirname, "public", "lsa.html")));
+
+app.post("/api/lsa-signup", async (req, res) => {
+  const name = String(req.body?.name || "").trim().slice(0, 120);
+  const email = normalizeEmail(req.body?.email).slice(0, 200);
+  const phone = String(req.body?.phone || "").trim().slice(0, 40);
+  const smsOptIn = Boolean(req.body?.smsOptIn);
+
+  if (!name) return res.status(400).json({ error: "Please enter your full name." });
+  if (!EMAIL_RE.test(email))
+    return res.status(400).json({ error: "Please enter a valid email." });
+
+  const ip = (req.headers["x-forwarded-for"] || req.ip || "").toString().split(",")[0].trim();
+  const utm = String(req.body?.source || "").slice(0, 40);
+  const source = utm ? `${LSA_SOURCE}:${utm}` : LSA_SOURCE;
+
+  // Auto-attach to the next upcoming session, exactly like a live registration.
+  const session = currentSession();
+
+  const record = {
+    name,
+    email,
+    phone,
+    smsOptIn,
+    sessionId: session?.id || null,
+    sessionISO: session?.startsAtISO || null,
+    registeredAt: new Date().toISOString(),
+    source,
+    ip,
+  };
+
+  const isNew = !getSubscriber(email);
+  try {
+    fs.appendFileSync(REG_FILE, JSON.stringify(record) + "\n");
+    upsertSubscriber({
+      email,
+      name,
+      source,
+      ip,
+      sessionId: session?.id || null,
+      phone,
+      smsOptIn, // consent banked only — see the note above
+    });
+  } catch (err) {
+    console.error("[lsa] write failed:", err.message);
+    return res.status(500).json({ error: "Something went wrong. Try again." });
+  }
+
+  sendLsaAssetsEmail({
+    name,
+    email,
+    session,
+    checklistUrl: `${PUBLIC_BASE_URL}${LSA_ASSETS.checklist}`,
+    slidesUrl: `${PUBLIC_BASE_URL}${LSA_ASSETS.slides}`,
+  }).catch((e) => console.error("[lsa] email error:", e?.message));
+
+  if (isNew && NOTIFY_EMAILS.length) {
+    sendAttendeeNotification({
+      name,
+      email,
+      count: stats().total,
+      recipients: NOTIFY_EMAILS,
+      attendeesUrl: attendeesUrl(),
+      when: session ? formatWhen(session).full : "",
+      sourceLabel: "LSA checklist page (/lsa)",
+    }).catch((e) => console.error("[lsa] notify error:", e?.message));
+  }
+
+  return res.json({
+    ok: true,
+    downloads: LSA_ASSETS,
+    when: session ? formatWhen(session).full : null,
+    topic: session ? (session.topic || null) : null,
+    sessionId: session?.id || null,
+    zoomJoinUrl: session?.zoomJoinUrl || webinar.zoomJoinUrl || null,
   });
 });
 
@@ -266,9 +361,19 @@ app.get("/api/admin/subscribers", (req, res) => {
 function subscribersCsv(sessionId) {
   let rows = listSubscribers();
   if (sessionId) rows = rows.filter((r) => (r.sessions || []).includes(sessionId));
-  const cols = ["name", "email", "status", "subscribedAt", "unsubscribedAt", "source", "sessions"];
+  // `source` tells live registrations ("", utm) apart from the /lsa checklist
+  // page ("lsa-checklist"). Phone + SMS consent are collect-only (nothing sends
+  // texts) but they belong in the export so consent is auditable.
+  const cols = [
+    "name", "email", "phone", "smsOptIn", "smsConsentAt",
+    "status", "subscribedAt", "unsubscribedAt", "source", "sessions",
+  ];
   const q = (v) => `"${String(v ?? "").replace(/"/g, '""')}"`;
-  const cell = (r, c) => (c === "sessions" ? (r.sessions || []).join(" | ") : r[c]);
+  const cell = (r, c) => {
+    if (c === "sessions") return (r.sessions || []).join(" | ");
+    if (c === "smsOptIn") return r.smsOptIn ? "yes" : "no";
+    return r[c];
+  };
   return [cols.join(","), ...rows.map((r) => cols.map((c) => q(cell(r, c))).join(","))].join("\n");
 }
 
@@ -386,17 +491,28 @@ app.get("/attendees", (req, res) => {
       }).format(new Date(iso));
     } catch { return iso; }
   };
+  // Where they came from: blank/utm = the live registration form, "lsa-checklist"
+  // = the /lsa checklist page.
+  const sourceCell = (r) => {
+    const src = String(r.source || "");
+    if (src.startsWith("lsa-checklist"))
+      return '<span class="pill src">LSA checklist</span>';
+    return src ? esc(src) : '<span class="dim">registration</span>';
+  };
   const body = rows.length
     ? rows.map((r, i) => `<tr>
         <td class="n">${i + 1}</td>
         <td>${esc(r.name) || "—"}</td>
         <td>${esc(r.email)}</td>
+        <td>${sourceCell(r)}</td>
+        <td>${r.phone ? esc(r.phone) : '<span class="dim">—</span>'}${
+          r.smsOptIn ? ' <span class="pill sms">SMS ok</span>' : ""}</td>
         <td>${fmt(r.createdAt || r.subscribedAt)}</td>
         <td>${r.status === "subscribed"
           ? '<span class="pill ok">subscribed</span>'
           : '<span class="pill no">unsubscribed</span>'}</td>
       </tr>`).join("")
-    : `<tr><td colspan="5" style="text-align:center;color:#94a3b8;padding:30px">No registrations yet.</td></tr>`;
+    : `<tr><td colspan="7" style="text-align:center;color:#94a3b8;padding:30px">No registrations yet.</td></tr>`;
   res.send(`<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1"><title>Webinar attendees</title>
   <style>
@@ -406,21 +522,25 @@ app.get("/attendees", (req, res) => {
     h1{font-size:22px;margin:0}
     .sub{color:#64748b;font-size:14px;margin-top:2px}
     .dl{background:#2563eb;color:#fff;text-decoration:none;padding:10px 16px;border-radius:9px;font-size:14px;font-weight:600}
-    table{width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 1px 3px rgba(15,23,42,.08)}
+    .tscroll{overflow-x:auto;border-radius:12px}
+    table{width:100%;min-width:720px;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 1px 3px rgba(15,23,42,.08)}
+    td .pill{white-space:nowrap}
     th,td{text-align:left;padding:11px 14px;font-size:14px;border-bottom:1px solid #e2e8f0}
     th{background:#f8fafc;color:#475569;font-size:12px;text-transform:uppercase;letter-spacing:.04em}
     td.n{color:#94a3b8;width:36px}
     tr:last-child td{border-bottom:none}
     .pill{font-size:11px;font-weight:600;padding:3px 9px;border-radius:20px}
     .pill.ok{background:#dcfce7;color:#166534}.pill.no{background:#fee2e2;color:#991b1b}
+    .pill.src{background:#dbeafe;color:#1d4ed8}.pill.sms{background:#f1f5f9;color:#475569}
+    .dim{color:#94a3b8}
   </style></head><body><div class="wrap">
     <div class="head">
       <div><h1>Webinar attendees</h1><div class="sub">${rows.length} ${filterId ? "for this session" : "registered"} · ${active} currently subscribed · ${esc(headWhen)}</div></div>
       <a class="dl" href="${csvHref}">Download CSV ↓</a>
     </div>
     <div style="margin:0 0 16px">${sessionPills}</div>
-    <table><thead><tr><th>#</th><th>Name</th><th>Email</th><th>Registered (ET)</th><th>Status</th></tr></thead>
-    <tbody>${body}</tbody></table>
+    <div class="tscroll"><table><thead><tr><th>#</th><th>Name</th><th>Email</th><th>Source</th><th>Phone / SMS</th><th>Registered (ET)</th><th>Status</th></tr></thead>
+    <tbody>${body}</tbody></table></div>
   </div></body></html>`);
 });
 

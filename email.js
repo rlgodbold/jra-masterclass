@@ -120,6 +120,54 @@ export async function sendConfirmationEmail({ name, email, session }) {
   });
 }
 
+// ── Transactional: LSA class collateral delivery (the /lsa page) ────────────
+// Sent right after someone takes the checklist + slides. They already have both
+// files on the page; this is the copy for their records, plus their auto
+// registration for the next live class. Standard marketing footer +
+// List-Unsubscribe headers, same as every other send.
+export async function sendLsaAssetsEmail({ name, email, session, checklistUrl, slidesUrl }) {
+  session = session || currentSession();
+  const when = session ? formatWhen(session) : null;
+  const firstName = firstNameOf(name);
+  const topic = session ? topicLabel(session) : "";
+  const nextLine = when
+    ? `<p style="margin:0 0 16px">You're also registered for the next live class, <strong>${topic}</strong>, <strong>${when.full}</strong>. We'll email you a reminder before we go live.</p>`
+    : `<p style="margin:0 0 16px">You're on the list for the next live class. We'll email you the date and the join link.</p>`;
+  const joinUrl = session?.zoomJoinUrl || webinar.zoomJoinUrl;
+  const joinLine = joinUrl
+    ? `<p style="margin:0 0 16px;color:#475569;font-size:14px">Same Zoom link every class: <a href="${joinUrl}">${joinUrl}</a></p>`
+    : "";
+
+  const html = `
+  <div style="font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;max-width:560px;margin:0 auto;color:#0f172a;font-size:16px;line-height:1.6">
+    <p style="margin:0 0 16px">Hi ${firstName},</p>
+    <p style="margin:0 0 18px">Here are both files from <strong>The LSA Migration</strong> class. Google is moving Local Services Ads into Google Ads, and this is everything we covered.</p>
+    <p style="margin:0 0 10px">
+      <a href="${checklistUrl}" style="background:#2563eb;color:#fff;text-decoration:none;padding:13px 22px;border-radius:10px;display:inline-block;font-weight:600">Download the checklist (PDF)</a>
+    </p>
+    <p style="margin:0 0 20px">
+      <a href="${slidesUrl}" style="background:#0f172a;color:#fff;text-decoration:none;padding:13px 22px;border-radius:10px;display:inline-block;font-weight:600">Download the 45 slide deck (PDF)</a>
+    </p>
+    <p style="margin:0 0 16px;font-size:14px;color:#475569">Direct links, if the buttons don't work:<br>
+      <a href="${checklistUrl}">${checklistUrl}</a><br>
+      <a href="${slidesUrl}">${slidesUrl}</a>
+    </p>
+    ${nextLine}
+    ${joinLine}
+    <p style="margin:0 0 16px">The founding offer from the class is still open: ten spots, one company per market. Business Profile management, LSAs, and Jenny answering every call, $750 per month locked for six months, then $1,000 per month. No ranking guarantees, no money back guarantee. To check availability, text Shane at <strong>907-982-8460</strong>.</p>
+    <p style="margin:0 0 4px">Talk soon,</p>
+    <p style="margin:0 0 16px"><strong>${webinar.hostName}</strong><br>${webinar.hostTitle}</p>
+    ${marketingFooter(email)}
+  </div>`;
+
+  return send({
+    to: email,
+    subject: "Your LSA Migration checklist and slides",
+    html,
+    headers: listUnsubHeaders(email),
+  });
+}
+
 // ── Marketing: a broadcast to one recipient (caller iterates the list) ───────
 export async function sendMarketingEmail({ name, email, subject, bodyHtml }) {
   const firstName = firstNameOf(name);
@@ -184,7 +232,7 @@ export async function sendReminderEmail({ name, email, kind, session }) {
 }
 
 // ── Internal: new-attendee notification to the team ─────────────────────────
-export async function sendAttendeeNotification({ name, email, count, recipients, attendeesUrl, when }) {
+export async function sendAttendeeNotification({ name, email, count, recipients, attendeesUrl, when, sourceLabel }) {
   const subject = `New masterclass signup: ${name || email}${count ? ` (#${count})` : ""}`;
   const html = `
   <div style="font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;max-width:520px;margin:0 auto;color:#0f172a;font-size:15px;line-height:1.6">
@@ -193,6 +241,7 @@ export async function sendAttendeeNotification({ name, email, count, recipients,
       <tr><td style="color:#64748b;padding:2px 16px 2px 0">Name</td><td><strong>${name || "—"}</strong></td></tr>
       <tr><td style="color:#64748b;padding:2px 16px 2px 0">Email</td><td>${email}</td></tr>
       ${when ? `<tr><td style="color:#64748b;padding:2px 16px 2px 0">First class</td><td><strong>${when}</strong></td></tr>` : ""}
+      ${sourceLabel ? `<tr><td style="color:#64748b;padding:2px 16px 2px 0">Came from</td><td><strong>${sourceLabel}</strong></td></tr>` : ""}
     </table>
     <p style="margin:0 0 18px"><strong>${count}</strong> registered so far.</p>
     <p style="margin:0"><a href="${attendeesUrl}" style="background:#2563eb;color:#fff;text-decoration:none;padding:11px 20px;border-radius:9px;display:inline-block;font-weight:600">View all attendees →</a></p>

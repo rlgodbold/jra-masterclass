@@ -44,6 +44,10 @@ function migrate(s) {
     }
   }
   if (!s.reminded) s.reminded = {};
+  // Fields added with the /lsa lead-capture page. Legacy records get the safe
+  // defaults (no phone, no SMS consent) so exports/admin views never show blanks.
+  if (typeof s.phone !== "string") s.phone = "";
+  if (typeof s.smsOptIn !== "boolean") s.smsOptIn = false;
   return s;
 }
 
@@ -68,9 +72,19 @@ export function normalizeEmail(e) {
   return String(e || "").trim().toLowerCase();
 }
 
-export function upsertSubscriber({ email, name, source, ip, sessionId }) {
+// `phone` + `smsOptIn` are OPTIONAL and only ever supplied by the /lsa
+// lead-capture form. SMS consent is legally distinct from email consent, so it
+// is stored on its own (smsOptIn / smsConsentAt / smsConsentIp) and gets its own
+// audit event — never inferred from the email opt-in.
+//
+// !!! COLLECT ONLY, SEND NOTHING. There is no SMS sending code anywhere in this
+// codebase (no Twilio, no provider, no client). Opt-ins are banked until A2P
+// 10DLC marketing registration is approved. Do not add a sender before then.
+export function upsertSubscriber({ email, name, source, ip, sessionId, phone, smsOptIn }) {
   email = normalizeEmail(email);
   const now = new Date().toISOString();
+  phone = String(phone || "").trim();
+  smsOptIn = Boolean(smsOptIn);
   let s = subscribers.get(email);
   if (!s) {
     s = {
@@ -83,15 +97,29 @@ export function upsertSubscriber({ email, name, source, ip, sessionId }) {
       unsubscribedAt: null,
       source: source || "",
       consentIp: ip || "",
+      phone, // only stored if they typed one; used only if smsOptIn is true
+      smsOptIn,
+      smsConsentAt: smsOptIn ? now : null,
+      smsConsentIp: smsOptIn ? ip || "" : "",
       sessions: sessionId ? [sessionId] : [], // every session this person registered for
       reminded: {}, // { [sessionId]: { r24:bool, r1:bool } }
     };
     subscribers.set(email, s);
     logEvent({ type: "subscribe", email, source, ip, sessionId });
+    // Separate, timestamped record of the SMS consent (its own legal basis).
+    if (smsOptIn) logEvent({ type: "sms_optin", email, phone, source, ip });
   } else {
     if (name && !s.name) s.name = name;
     if (!Array.isArray(s.sessions)) s.sessions = [];
     if (!s.reminded) s.reminded = {};
+    if (phone) s.phone = phone; // a freshly-typed number wins
+    // A new SMS opt-in is its own consent event, with its own timestamp + IP.
+    if (smsOptIn && !s.smsOptIn) {
+      s.smsOptIn = true;
+      s.smsConsentAt = now;
+      s.smsConsentIp = ip || "";
+      logEvent({ type: "sms_optin", email, phone: s.phone || "", source, ip });
+    }
     // An explicit re-registration counts as fresh consent → re-subscribe.
     if (s.status === "unsubscribed") {
       s.status = "subscribed";
