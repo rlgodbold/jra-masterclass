@@ -113,6 +113,18 @@
   .offer li .d{flex:0 0 auto;width:6px;height:6px;border-radius:50%;background:#7dabf8;margin-top:8px}
   .offer li b{color:#fff;font-weight:600}
   .offer .textcta{display:inline-block;background:var(--blue);color:#fff;text-decoration:none;padding:14px 24px;border-radius:12px;font-weight:700;font-size:16px}
+
+  .offer .pills{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+  .offer .pill{display:inline-block;font-weight:800;font-size:12px;letter-spacing:.06em;text-transform:uppercase;padding:7px 14px;border-radius:999px}
+  .offer .pill.gold{background:#f2b705;color:#241a00}
+  .offer .pill.ghost{background:transparent;border:1.5px solid #6ea2f5;color:#cfe0fb}
+  .offer .hero{background:#fff;border-radius:14px;padding:24px 22px 20px;margin:20px 0 18px;text-align:center}
+  .offer .hero .was{color:#5b6b81;font-size:15px}
+  .offer .hero .was s{color:#93a3b8}
+  .offer .hero .now{color:var(--ink);font-size:clamp(50px,9vw,68px);font-weight:800;letter-spacing:-.03em;line-height:1;margin:6px 0 2px}
+  .offer .hero .per{color:#46566b;font-size:15px;font-weight:700}
+  .offer .hero .save{margin-top:14px;background:#eefaf1;color:#12803f;border-radius:10px;padding:12px 14px;font-weight:800;font-size:15.5px;line-height:1.45}
+  .offer .hero .after{margin-top:11px;color:#5b6b81;font-size:13.5px;line-height:1.5}
   .offer .fine{font-size:13px;color:#93a6c4;margin:14px 0 0}
 
   footer{border-top:1px solid var(--line);padding:30px 0;text-align:center;color:var(--muted);font-size:13px}
@@ -221,16 +233,25 @@
     <h2 class="section-title">Ten spots, first come.</h2>
     <p class="section-sub">The founding offer from this class is still open. Text Shane at 907-982-8460 to check current availability.</p>
     <div class="offer">
-      <span class="badge">Founding offer</span>
-      <h3>Business Profile, LSAs, and Jenny answering every call.</h3>
-      <p>Everything in the checklist is three jobs, not one: the profile kept right, the LSA pruned and watched, and the phone answered fast. Most owners do one of them well. Almost nobody does all three, every month, for months.</p>
-      <div class="price">
-        <div class="row"><span>Google Business Profile management, one profile</span><b>$750 per month</b></div>
-        <div class="row"><span>Jenny, the industry's best trained junk removal AI agent</span><b>$750 per month</b></div>
-        <div class="row"><span>LSA management</span><b>$500 per month</b></div>
-        <div class="row total"><span>All three separately</span><b>$2,000 per month</b></div>
+      <div class="pills">
+        <span class="pill gold">Only 10 spots</span>
+        <span class="pill ghost">62% off</span>
       </div>
-      <p class="headline">For the next 10 people: all three for $750 per month, locked for six months. After the sixth payment it goes to $1,000 per month.</p>
+      <h3>Your Business Profile, your LSAs, and Jenny answering every call.</h3>
+      <p>Three jobs, not one: the profile kept right, the LSA pruned and watched, and the phone answered fast. Most owners do one of them well. Almost nobody does all three, every month, for months.</p>
+      <div class="price">
+        <div class="row"><span>Google Business Profile management, one profile</span><b>$750 / mo</b></div>
+        <div class="row"><span>Jenny, our junk removal AI agent</span><b>$750 / mo</b></div>
+        <div class="row"><span>Local Services Ads management</span><b>$500 / mo</b></div>
+        <div class="row total"><span>Bought separately</span><b>$2,000 / mo</b></div>
+      </div>
+      <div class="hero">
+        <div class="was">Normally <s>$2,000 per month</s></div>
+        <div class="now">$750</div>
+        <div class="per">per month, all three</div>
+        <div class="save">You keep $1,250 every month.<br>$7,500 across the six months.</div>
+        <div class="after">Locked for six months. After the sixth payment it goes to $1,000 per month, still half of retail.</div>
+      </div>
       <ul>
         <li><span class="d"></span><span><b>No ranking guarantees.</b> Anyone promising you position one is lying, and Google says the same thing.</span></li>
         <li><span class="d"></span><span><b>No money back guarantee on this offer.</b> You are getting the discount instead.</span></li>
