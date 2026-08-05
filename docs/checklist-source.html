@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>The LSA Migration Checklist</title>
+<style>
+  @page { size: Letter; margin: 0.85in 0.8in 0.9in 0.8in; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: Arial, Helvetica, "Liberation Sans", sans-serif;
+    color: #1f2b3d;
+    font-size: 10.6pt;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── Cover header ───────────────────────────────────────────── */
+  .cover {
+    background: #0B1F3A;
+    color: #ffffff;
+    padding: 34px 34px 30px;
+    border-radius: 10px;
+    margin-bottom: 26px;
+  }
+  .cover .kicker {
+    color: #7dabf8;
+    font-size: 8.2pt;
+    font-weight: bold;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .cover h1 {
+    font-size: 30pt;
+    line-height: 1.08;
+    letter-spacing: -.02em;
+    font-weight: bold;
+    margin-bottom: 12px;
+  }
+  .cover .rule { width: 92px; height: 5px; background: #2563eb; border-radius: 3px; margin: 16px 0 15px; }
+  .cover .who { font-size: 10.4pt; color: #cfe0fb; line-height: 1.5; }
+  .cover .who b { color: #ffffff; }
+
+  /* ── Intro ──────────────────────────────────────────────────── */
+  .intro p { margin-bottom: 11px; }
+  .intro b, .intro strong { color: #0B1F3A; }
+  .asof { color: #64748b; font-style: italic; font-size: 9.4pt; margin-top: 4px; }
+
+  .pull {
+    page-break-inside: avoid;
+    break-inside: avoid;
+    background: #eff6ff;
+    border-left: 4px solid #2563eb;
+    border-radius: 0 8px 8px 0;
+    padding: 14px 18px;
+    margin: 16px 0 18px;
+    color: #0B1F3A;
+    font-size: 12pt;
+    font-weight: bold;
+    line-height: 1.4;
+  }
+
+  /* ── Sections ───────────────────────────────────────────────── */
+  .sec { margin-top: 26px; }
+  .backpage { page-break-before: always; break-before: page; margin-top: 0; }
+  .sec-head {
+    border-top: 2px solid #2563eb;
+    padding-top: 13px;
+    margin-bottom: 4px;
+    page-break-after: avoid;
+    break-after: avoid;
+  }
+  h2 {
+    page-break-after: avoid;
+    break-after: avoid;
+    color: #0B1F3A;
+    font-size: 16.5pt;
+    letter-spacing: -.01em;
+    font-weight: bold;
+    line-height: 1.2;
+  }
+  .sec-note { page-break-after: avoid; break-after: avoid; color: #5b6b81; font-size: 10.2pt; margin: 5px 0 16px; }
+
+  /* ── Checkbox items ─────────────────────────────────────────── */
+  ul.checks { list-style: none; }
+  ul.checks li {
+    position: relative;
+    padding-left: 34px;
+    margin-bottom: 15px;
+    page-break-inside: avoid;
+  }
+  ul.checks li:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 1px;
+    width: 17px;
+    height: 17px;
+    border: 2px solid #2563eb;
+    border-radius: 4px;
+    background: #ffffff;
+  }
+  ul.checks li .t { color: #0B1F3A; font-weight: bold; display: block; line-height: 1.42; }
+  ul.checks li .d { display: block; margin-top: 4px; color: #46566b; }
+
+  /* ── Plain bullets ──────────────────────────────────────────── */
+  ul.dots { list-style: none; margin: 4px 0 0; }
+  ul.dots li { position: relative; padding-left: 20px; margin-bottom: 9px; page-break-inside: avoid; }
+  ul.dots li:before {
+    content: "";
+    position: absolute;
+    left: 3px;
+    top: 7px;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #2563eb;
+  }
+  ul.dots li b { color: #0B1F3A; }
+
+  /* ── Callout ────────────────────────────────────────────────── */
+  .callout {
+    background: #f6f9ff;
+    border: 1px solid #cfe0fb;
+    border-radius: 10px;
+    padding: 18px 20px;
+    margin-top: 6px;
+    page-break-inside: avoid;
+  }
+  .callout p { margin-bottom: 10px; }
+  .callout p:last-child { margin-bottom: 0; }
+  .callout b { color: #0B1F3A; }
+
+  .note {
+    color: #5b6b81;
+    font-style: italic;
+    font-size: 9.8pt;
+    margin-top: 4px;
+  }
+
+  .offer {
+    background: #0B1F3A;
+    color: #e8eefb;
+    border-radius: 10px;
+    padding: 18px 20px;
+    page-break-inside: avoid;
+  }
+  .offer h3 { color: #ffffff; font-size: 13pt; margin-bottom: 10px; }
+  .offer p { margin-bottom: 8px; }
+  .offer b { color: #ffffff; }
+  .offer ul.dots li:before { background: #7dabf8; }
+  .offer ul.dots li b { color: #ffffff; }
+  .offer .price {
+    background: #163156;
+    border-radius: 8px;
+    padding: 12px 14px;
+    margin: 10px 0;
+  }
+  .offer .price div { margin-bottom: 5px; }
+  .offer .price div:last-child { margin-bottom: 0; }
+  .offer .headline {
+    color: #ffffff;
+    font-size: 11.6pt;
+    font-weight: bold;
+    line-height: 1.45;
+  }
+  .offer .claim { margin-top: 8px; font-size: 10.6pt; }
+
+  .sources {
+    page-break-inside: avoid;
+    break-inside: avoid;
+    color: #64748b;
+    font-size: 8pt;
+    line-height: 1.42;
+    margin-top: 12px;
+    border-top: 1px solid #dbe3ee;
+    padding-top: 10px;
+    word-break: break-word;
+  }
+  .sources b { color: #46566b; }
+
+  .nextclass {
+    border: 1px solid #cfe0fb;
+    background: #eff6ff;
+    border-radius: 10px;
+    padding: 13px 18px;
+    margin-top: 12px;
+    page-break-inside: avoid;
+  }
+  .nextclass b { color: #0B1F3A; }
+  .nextclass .reg { margin-top: 8px; }
+
+  .signoff { color: #64748b; font-style: italic; font-size: 9.4pt; margin-top: 12px; text-align: center; page-break-inside: avoid; break-inside: avoid; }
+  p { margin-bottom: 10px; }
+  p:last-child { margin-bottom: 0; }
+  b, strong { color: #0B1F3A; }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <div class="kicker">JRA Junk Removal Masterclass Series &nbsp;·&nbsp; Episode 1</div>
+  <h1>The LSA Migration<br>Checklist</h1>
+  <div class="rule"></div>
+  <div class="who"><b>For junk removal owners.</b> From Episode 1 of the JRA Junk Removal Masterclass Series.<br>Lee Godbold &nbsp;·&nbsp; Junk Removal Authority</div>
+</div>
+
+<div class="intro">
+  <p>Google is retiring the standalone Local Services Ads dashboard. Your campaign moves into Google Ads automatically, as a Performance Max campaign with a pay per lead goal. It stays keywordless and it still runs on Search and Maps only.</p>
+
+  <p><b>Junk Removal is listed in the Phase 1, August 2026 table under Home Services</b>, alongside Plumbing, HVAC and Roofing. Phase 2 in late 2026 covers service area businesses without physical storefronts, professional services, and accounts with custom bidding or booking configurations. Phase 3 in 2027 covers non US markets, healthcare, and advanced verification. Most junk removal companies are service area businesses, so whether your individual account moves in August likely turns on how your account is set up. Assume it could be you and act now.</p>
+
+  <p>Your account gets an email notice about 14 days out, then a 7 day reminder, then it moves. You do not choose the date. Nothing Google has published describes an opt out.</p>
+
+  <p><b>The one thing that only works before it happens:</b> export your campaign performance history. Your past customer lead history does transfer, including customer contact details, back and forth message history and older call recordings. Your previous campaign level performance metrics do not: past impressions, clicks, weekly spend and ad level performance reports. Your verified status and Google Verified badge carry over automatically.</p>
+
+  <div class="pull">Your customer list comes with you. Your scoreboard does not.</div>
+
+  <p class="asof">As of August 2026. This is a rollout in progress, so verify everything against the notice in your own Google account.</p>
+</div>
+
+<div class="sec">
+  <div class="sec-head"><h2>BEFORE your notice arrives</h2></div>
+  <p class="sec-note">Everything here is easier now than it will be on a 14 day clock.</p>
+  <ul class="checks">
+    <li><span class="t">Capture your performance history and save it off Google. Plan on screenshots.</span>
+      <span class="d">Be aware up front: we have not found a download or export button for the performance reports. Your lead history transfers to the new Lead Manager, but your campaign performance history does not, and the old dashboard closes for good. So plan on capturing it by hand. Take three passes in the Reports section:</span>
+      <span class="d"><b>1. A full year 2025 screenshot.</b> Set the date range to all of 2025 and capture the totals.<br>
+      <b>2. A year to date screenshot.</b> January 1 of this year through today.<br>
+      <b>3. A screenshot of every single month, going back to January 2025.</b> One month at a time. It is tedious, and it is the only version that lets you compare this April to last April.</span>
+      <span class="d">Capture leads, charges and spend, the call versus message split, and performance broken out by service category. Save it all in a named folder in your Drive, not your downloads folder. Then feed the screenshots to an AI and have it build you a spreadsheet, which turns a pile of images into something you can actually run numbers against.</span>
+      <span class="d">If you are a JRA client and your LSA account is connected to your Google Ads account, we have software that can pull this for you instead. And if we find a cleaner way to do it, we will publish it.</span></li>
+
+    <li><span class="t">Screenshot your settings: budget, Target CPA by category, categories and job types, service areas, schedule and hours, phone routing, photos, callouts.</span>
+      <span class="d">Add one more screen: the list of everyone who has access today, and at what level. You cannot verify after migration what you never wrote down.</span></li>
+
+    <li><span class="t">Prune your job types and your service area to the work you actually want.</span>
+      <span class="d">This is now the primary cost control, and the reason is on the next page. Every job type left switched on and every mile of service area you do not really want is a bill you have pre agreed to pay, with no refund path.</span></li>
+
+    <li><span class="t">Confirm the account email is one a human reads daily, so you do not miss the notice.</span>
+      <span class="d">If notifications go to an old address or to somebody who left the company, you burn the 14 days without knowing it.</span></li>
+
+    <li><span class="t">List every person who handles leads, then give each one their own Google Ads access.</span>
+      <span class="d">The LSA inbox is being replaced by Lead Manager inside Google Ads, under Goals, then Conversions, then Leads. A shared LSA login will not carry your office person through. Do this before migration day, not during it.</span></li>
+
+    <li><span class="t">Write down your real cost per lead and close rate by service type, so your Target CPA comes from numbers.</span>
+      <span class="d">Manual bidding is eliminated. Target CPA is a goal Google aims at over time, not a ceiling, and there is no refund when it misses.</span></li>
+
+    <li><span class="t">Clean up your Google Business Profile: name, phone, hours, service area, categories, photos.</span>
+      <span class="d">Your business details now sync from the profile. It is feeding your paid ad, not just your maps listing. Note that major name or address changes trigger a verification review that can pause the campaign for 24 to 48 hours, so do not make those edits the week you expect to migrate.</span></li>
+  </ul>
+  <p class="note">If an outside agency manages your LSAs, ask them in writing this week for the export and for what your access will look like after migration.</p>
+</div>
+
+<div class="sec">
+  <div class="sec-head"><h2>WHEN the notice arrives</h2></div>
+  <p class="sec-note">You have 14 days, then a 7 day reminder. Use the first evening.</p>
+  <ul class="checks">
+    <li><span class="t">Read the notice itself. It is the only account specific information that exists.</span>
+      <span class="d">Nobody outside Google can tell you your date.</span></li>
+    <li><span class="t">Run the export one more time so the final weeks of data are captured.</span></li>
+    <li><span class="t">Take a fresh set of settings screenshots dated the week of the move.</span></li>
+    <li><span class="t">Tell your team the lead inbox is about to change, and confirm each of them can log in to Google Ads.</span>
+      <span class="d">Test it on their own login, on their own phone. Do not assume it.</span></li>
+    <li><span class="t">Decide your Target CPA number now, calmly, from your numbers instead of on migration day.</span></li>
+    <li><span class="t">Block thirty minutes on your calendar for the week after migration to verify settings.</span></li>
+  </ul>
+</div>
+
+<div class="sec">
+  <div class="sec-head"><h2>AFTER you migrate</h2></div>
+  <p class="sec-note">Verify first. Then leave it alone long enough for the numbers to mean something.</p>
+  <ul class="checks">
+    <li><span class="t">Verify every transferred setting against your screenshots: budget, Target CPA, categories, job types, locations, schedule, phone routing, photos, callouts.</span></li>
+
+    <li><span class="t">Check the budget math.</span>
+      <span class="d">Your historical weekly budget divided by 7 becomes your daily average. That daily number times 30.4 is your maximum monthly spend. That is about 4.34 times your old weekly number, not 4 times. Do the arithmetic yourself instead of assuming it landed where you wanted.</span></li>
+
+    <li><span class="t">Find Lead Manager inside Google Ads and confirm your leads are landing there.</span>
+      <span class="d">Goals, then Conversions, then Leads. Your transferred contact details, message history and older call recordings live there too.</span></li>
+
+    <li><span class="t">Confirm every lead handler can open Lead Manager, on their own login, on their own phone.</span></li>
+
+    <li><span class="t">Choose your callouts deliberately from the options offered in your account.</span>
+      <span class="d">BBB callouts are discontinued and replaced by structured callouts. Examples of what is offered include business hours, specialties and payment methods. Open the callout options and read what is actually there instead of leaving whatever defaulted in.</span></li>
+
+    <li><span class="t">Rate every bad lead, every time.</span>
+      <span class="d">Manual lead disputes were deprecated in July 2024. They were replaced by automated credits: leads are screened at contact, charged leads are reassessed over time, invalid or low quality leads are not charged, and credits appear in your account balance within 30 days. The original charge still shows on the invoice, so reconcile against the balance. Your remaining lever is the "Rate this lead" feedback survey, which Google says can produce additional credits.</span></li>
+
+    <li><span class="t">Give the account up to two weeks to stabilize before you start changing things.</span>
+      <span class="d">Do not pause, throttle. Pausing restarts the learning period and you pay for it twice. JRA rule: never change budget or Target CPA more than 20 percent up or down at once.</span></li>
+
+    <li><span class="t">Then review spend weekly for the first month, watching pacing and answer rate together.</span>
+      <span class="d">Junk removal demand is spiky: weekends, weather, end of month moves. You no longer have a weekly budget absorbing those swings, and if you exhaust the daily budget by noon you are invisible for the rest of the day.</span></li>
+  </ul>
+</div>
+
+<div class="sec">
+  <div class="sec-head"><h2>The credit trap: read this twice</h2></div>
+  <div class="callout">
+    <p><b>Google no longer credits leads on the grounds that the job type is not serviced, or that the geography is not serviced.</b> Healthcare, tax specialists and EMEA advertisers are also excluded from credits.</p>
+    <p>Those two reasons are the two most common bad junk removal leads: the job you do not do, and the call from an hour and a half away. They are no longer refundable.</p>
+    <p>Google's published remedy is to fix your settings rather than ask for money back: proactively refine your service areas, your job types and your categories, and accept lower volume in exchange for leads you actually want.</p>
+    <p>And declining work costs you twice. You were already charged when the lead came in, and Google routes and analyzes those calls, so repeatedly declining work reads as disinterest and reduces how often you are shown. Credits are for invalid leads, not for leads you did not want.</p>
+  </div>
+  <div class="pull">Pruning replaced disputing. That is the single biggest change in how you control cost.</div>
+</div>
+
+<div class="sec">
+  <div class="sec-head"><h2>What is NOT changing</h2></div>
+  <ul class="dots">
+    <li>You still pay per qualified lead: calls, messages and bookings. Not per click.</li>
+    <li>You still appear on Google Search and Google Maps.</li>
+    <li>LSA campaigns stay keywordless.</li>
+    <li>Your past customer lead history carries over, including contact details, message history and older call recordings.</li>
+    <li>Your verified status and Google Verified badge carry over automatically.</li>
+  </ul>
+  <p style="margin-top:10px">This is an infrastructure change, not the end of Local Services Ads.</p>
+</div>
+
+<div class="sec">
+  <div class="sec-head"><h2>Two things people get wrong</h2></div>
+  <ul class="dots">
+    <li><b>"Just split into separate campaigns."</b> You cannot create new pay per lead campaigns inside Google Ads. Google directs advertisers to g.co/localservices for additional campaign setup. Vertical level Target CPA is gone and one campaign level target now covers everything, which barely affects a pure junk removal company because junk removal is one category. It bites operators running junk removal plus dumpster rental plus moving. Plan on that being a conversation with Google, not a checkbox.</li>
+    <li><b>"This is that Performance Max that burns your budget."</b> Standard Performance Max charges per click and runs across Search, Display, YouTube, Gmail and Maps. The pay per lead version charges per valid lead, runs on Search and Maps only, and uses simplified assets with no video or sitelinks required. If a rep offers to move you to a standard campaign, know that cost per click campaigns have no lead credit system at all. Ask one question: does this campaign still charge me per lead, or per click?</li>
+  </ul>
+</div>
+
+<div class="sec">
+  <div class="sec-head"><h2>What we are not claiming, on purpose</h2></div>
+  <ul class="dots">
+    <li><b>Your migration date:</b> notice comes per account. Nobody outside Google knows the order.</li>
+    <li><b>Whether your cost per lead goes up or down:</b> unknown, and anyone who tells you otherwise is guessing. Watch your Target CPA, your daily pacing, and your answer rate.</li>
+    <li><b>A response time threshold:</b> Google publishes none. It routes all LSA calls through its own numbers and measures you directly, but the five minute and five percent figures circulating online are agency estimates. Treat speed as comparative against your competitors in your market.</li>
+    <li><b>A photo cadence:</b> Google publishes none. Adding LSA specific photos at least once a month is JRA practice, not Google policy. We do it because the buyer is comparing three ads side by side and real trucks and crews do conversion work, and because ad photos can be customized independently of your Business Profile.</li>
+    <li><b>Any ranking guarantee.</b> Nobody can promise you position one.</li>
+  </ul>
+</div>
+
+<div class="sec">
+  <div class="sec-head"><h2>Reviews and your Business Profile</h2></div>
+  <p>Since July 11, 2025, all LSA reviews are managed through the Google Business Profile, and the old LSA review links are dead. If your review request text still points at one, fix it today. A linked, verified Google Business Profile has been required to run Local Services Ads since November 2024: incomplete, unverified or suspended means the ads do not run at all.</p>
+</div>
+
+<div class="sec backpage">
+  <div class="sec-head"><h2>The offer from this class</h2></div>
+  <div class="offer">
+    <p>Everything in this checklist is three jobs, not one: the profile kept right, the LSA pruned and watched, and the phone answered fast. Most owners do one of them well. Almost nobody does all three, every month, for months.</p>
+    <p>Bought separately, that is:</p>
+    <div class="price">
+      <div>Google Business Profile management, one profile: <b>$750 per month</b></div>
+      <div>Jenny, the industry's best trained junk removal AI agent: <b>$750 per month</b></div>
+      <div>LSA management: <b>$500 per month</b></div>
+      <div><b>All three separately: $2,000 per month</b></div>
+    </div>
+    <p class="headline">For the next 10 people: Business Profile, LSAs, and Jenny answering every call, $750 per month, locked for six months. After the sixth payment it goes to $1,000 per month.</p>
+    <ul class="dots" style="margin-top:12px">
+      <li><b>One company per market.</b> We cannot rank two junk removal companies in the same market, so taking you means turning your competitors away.</li>
+      <li><b>No ranking guarantees.</b> Anyone promising you position one is lying, and Google says the same thing.</li>
+      <li><b>No money back guarantee on this offer.</b> You are getting the discount instead.</li>
+    </ul>
+    <p class="claim">This class also goes out to JRA's 10,000 YouTube subscribers, so many more people will see this than were on the call. Ten spots, first come.</p>
+    <p class="claim"><b>To claim one: drop a message in the comments, or text Shane at 907-982-8460.</b></p>
+  </div>
+</div>
+
+<div class="nextclass">
+  <p><b>Next class: Episode 2, "Own the Map," Tuesday, August 18, 2026, 2:30 PM ET.</b> How junk removal owners rank in the Google map pack. Your Business Profile is the foundation under both map ranking and paid leads: reviews moved into it, your ad's business details sync from it, and it has been required to run LSAs at all since November 2024. Fix it once, it pays twice.</p>
+  <p class="reg">Register once for the whole series at <b>masterclass.junkra.com</b>.</p>
+</div>
+
+<div class="sources">
+  <b>Sources:</b> Google Ads Help, Local Services Ads migration to Google Ads, https://support.google.com/google-ads/answer/17213585 · Google Ads Help, migration verticals and phase chart, https://support.google.com/google-ads/answer/17326460 · Google Local Services Ads Help, automated lead credits, https://support.google.com/localservices/answer/15100654 · Google Business Profile Help community and Search Engine Roundtable coverage of the July 11, 2025 LSA review merge. All retrieved July 29 and August 3, 2026.
+</div>
+
+<p class="signoff">JRA Junk Removal Masterclass Series. Lee Godbold, Junk Removal Authority.</p>
+
+</body>
+</html>
