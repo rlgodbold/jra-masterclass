@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Own the Map Checklist</title>
+<style>
+  @page { size: Letter; margin: 0.85in 0.8in 0.9in 0.8in; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: Arial, Helvetica, "Liberation Sans", sans-serif;
+    color: #1f2b3d;
+    font-size: 10.6pt;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── Cover header ───────────────────────────────────────────── */
+  .cover {
+    background: #0B1F3A;
+    color: #ffffff;
+    padding: 34px 34px 30px;
+    border-radius: 10px;
+    margin-bottom: 26px;
+  }
+  .cover .kicker {
+    color: #7dabf8;
+    font-size: 8.2pt;
+    font-weight: bold;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .cover h1 {
+    font-size: 30pt;
+    line-height: 1.08;
+    letter-spacing: -.02em;
+    font-weight: bold;
+    margin-bottom: 12px;
+  }
+  .cover .rule { width: 92px; height: 5px; background: #2563eb; border-radius: 3px; margin: 16px 0 15px; }
+  .cover .who { font-size: 10.4pt; color: #cfe0fb; line-height: 1.5; }
+  .cover .who b { color: #ffffff; }
+
+  /* ── Intro ──────────────────────────────────────────────────── */
+  .intro p { margin-bottom: 11px; }
+  .intro b, .intro strong { color: #0B1F3A; }
+  .asof { color: #64748b; font-style: italic; font-size: 9.4pt; margin-top: 4px; }
+
+  .pull {
+    page-break-inside: avoid;
+    break-inside: avoid;
+    background: #eff6ff;
+    border-left: 4px solid #2563eb;
+    border-radius: 0 8px 8px 0;
+    padding: 14px 18px;
+    margin: 16px 0 18px;
+    color: #0B1F3A;
+    font-size: 12pt;
+    font-weight: bold;
+    line-height: 1.4;
+  }
+
+  /* ── Sections ───────────────────────────────────────────────── */
+  .sec { margin-top: 26px; }
+  .backpage { page-break-before: always; break-before: page; margin-top: 0; }
+  .sec-head {
+    border-top: 2px solid #2563eb;
+    padding-top: 13px;
+    margin-bottom: 4px;
+    page-break-after: avoid;
+    break-after: avoid;
+  }
+  h2 {
+    page-break-after: avoid;
+    break-after: avoid;
+    color: #0B1F3A;
+    font-size: 16.5pt;
+    letter-spacing: -.01em;
+    font-weight: bold;
+    line-height: 1.2;
+  }
+  .sec-note { page-break-after: avoid; break-inside: avoid; break-after: avoid; color: #5b6b81; font-size: 10.2pt; margin: 5px 0 16px; }
+
+  /* ── Checkbox items ─────────────────────────────────────────── */
+  ul.checks { list-style: none; }
+  ul.checks li {
+    position: relative;
+    padding-left: 34px;
+    margin-bottom: 15px;
+    page-break-inside: avoid;
+  }
+  ul.checks li:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 1px;
+    width: 17px;
+    height: 17px;
+    border: 2px solid #2563eb;
+    border-radius: 4px;
+    background: #ffffff;
+  }
+  ul.checks li .t { color: #0B1F3A; font-weight: bold; display: block; line-height: 1.42; }
+  ul.checks li .d { display: block; margin-top: 4px; color: #46566b; }
+
+  /* ── Plain bullets ──────────────────────────────────────────── */
+  ul.dots { list-style: none; margin: 4px 0 0; }
+  ul.dots li { position: relative; padding-left: 20px; margin-bottom: 9px; page-break-inside: avoid; }
+  ul.dots li:before {
+    content: "";
+    position: absolute;
+    left: 3px;
+    top: 7px;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #2563eb;
+  }
+  ul.dots li b { color: #0B1F3A; }
+
+  /* ── Callout ────────────────────────────────────────────────── */
+  .callout {
+    background: #f6f9ff;
+    border: 1px solid #cfe0fb;
+    border-radius: 10px;
+    padding: 18px 20px;
+    margin-top: 6px;
+    page-break-inside: avoid;
+  }
+  .callout p { margin-bottom: 10px; }
+  .callout p:last-child { margin-bottom: 0; }
+  .callout b { color: #0B1F3A; }
+
+  .note {
+    color: #5b6b81;
+    font-style: italic;
+    font-size: 9.8pt;
+    margin-top: 4px;
+  }
+
+  .offer {
+    background: #0B1F3A;
+    color: #e8eefb;
+    border-radius: 10px;
+    padding: 16px 18px;
+    page-break-inside: avoid;
+  }
+  .offer h3 { color: #ffffff; font-size: 13pt; margin-bottom: 10px; }
+  .offer p { margin-bottom: 8px; }
+  .offer b { color: #ffffff; }
+  .offer ul.dots li:before { background: #7dabf8; }
+  .offer ul.dots li b { color: #ffffff; }
+  .offer .price {
+    background: #163156;
+    border-radius: 8px;
+    padding: 12px 14px;
+    margin: 10px 0;
+  }
+  .offer .price div { margin-bottom: 5px; }
+  .offer .price div:last-child { margin-bottom: 0; }
+  .offer .headline {
+    color: #ffffff;
+    font-size: 11.6pt;
+    font-weight: bold;
+    line-height: 1.45;
+  }
+  .offer .claim { margin-top: 8px; font-size: 10.6pt; }
+
+
+  .badges { margin-bottom: 13px; }
+  .pill { display:inline-block; padding:5px 12px; border-radius:20px; font-size:8.4pt;
+          font-weight:bold; letter-spacing:.07em; text-transform:uppercase; margin-right:7px; }
+  .pill.gold { background:#f2b705; color:#1a1200; }
+  .pill.ghost { background:transparent; border:1.5px solid #7dabf8; color:#cfe0fb; }
+  .incl { background:#163156; border-radius:9px; padding:11px 15px; margin:10px 0 0; }
+  .incl .row { display:block; margin-bottom:6px; color:#cfe0fb; font-size:10.2pt; }
+  .incl .row:last-child { margin-bottom:0; }
+  .incl .row b { color:#ffffff; float:right; }
+  .totrow { margin-top:10px; padding-top:9px; border-top:1px solid #2f4d78; color:#cfe0fb; font-size:10.4pt; }
+  .totrow b { color:#ffffff; float:right; }
+  .hero { background:#ffffff; border-radius:10px; padding:14px 18px 13px; margin:11px 0 10px; text-align:center; }
+  .hero .was { color:#5b6b81; font-size:10.6pt; }
+  .hero .was s { color:#8c9bb0; }
+  .hero .now { color:#0B1F3A; font-size:33pt; font-weight:bold; line-height:1; letter-spacing:-.025em; margin:5px 0 2px; }
+  .hero .per { color:#46566b; font-size:11pt; font-weight:bold; }
+  .hero .save { margin-top:9px; color:#12803f; background:#eefaf1; border-radius:7px;
+                padding:8px 11px; font-weight:bold; font-size:10.8pt; }
+  .hero .after { margin-top:9px; color:#5b6b81; font-size:9.7pt; }
+
+  .sources {
+    page-break-inside: avoid;
+    break-inside: avoid;
+    color: #64748b;
+    font-size: 8pt;
+    line-height: 1.42;
+    margin-top: 12px;
+    border-top: 1px solid #dbe3ee;
+    padding-top: 10px;
+    word-break: break-word;
+  }
+  .sources b { color: #46566b; }
+
+  .nextclass {
+    border: 1px solid #cfe0fb;
+    background: #eff6ff;
+    border-radius: 10px;
+    padding: 11px 16px;
+    margin-top: 10px;
+    page-break-inside: avoid;
+  }
+  .nextclass b { color: #0B1F3A; }
+  .nextclass .reg { margin-top: 8px; }
+
+  .signoff { color: #64748b; font-style: italic; font-size: 9.4pt; margin-top: 12px; text-align: center; page-break-inside: avoid; break-inside: avoid; }
+  p { margin-bottom: 9px; }
+  p:last-child { margin-bottom: 0; }
+  b, strong { color: #0B1F3A; }
+
+  .sub { color:#2563eb; font-size:9.6pt; font-weight:bold; letter-spacing:.1em; text-transform:uppercase;
+         margin:16px 0 8px; page-break-after:avoid; break-after:avoid; }
+  .shot { margin:10px 0 3px; page-break-inside:avoid; break-inside:avoid; }
+  .shot img { width:80%; border:1px solid #cfe0fb; border-radius:8px; display:block; margin:0 auto; }
+  .shot .cap { color:#2563eb; font-size:9.5pt; font-weight:bold; margin-top:7px; line-height:1.4; }
+  .oncols { margin:10px 0 4px; }
+  .oncols .on, .oncols .off { padding:11px 14px; border-radius:8px; margin-bottom:8px; page-break-inside:avoid; }
+  .oncols .on { background:#eefaf1; border-left:4px solid #16a34a; }
+  .oncols .off { background:#f6f7f9; border-left:4px solid #94a3b8; }
+  .oncols .lbl { font-weight:bold; color:#0B1F3A; display:block; margin-bottom:3px; }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <div class="kicker">JRA Junk Removal Masterclass Series &nbsp;·&nbsp; Episode 2</div>
+  <h1>Own the Map<br>Checklist</h1>
+  <div class="rule"></div>
+  <div class="who">Built for junk removal owners.<br><b>Lee Godbold</b> &nbsp;·&nbsp; Junk Removal Authority</div>
+</div>
+
+<div class="intro">
+  <p>The map pack is the three businesses that come up with the little map at the top of Google. Those are the best leads in this business and they are free. Somebody typing <b>junk removal near me</b> is not doing research. They are ready to book.</p>
+  <p>Google is picking fewer winners now. Ask Maps, the AI layer inside Google Maps, hands back about <b>three</b> businesses where the old list showed ten. The profiles that are already set up right are the ones that inherit that traffic.</p>
+  <div class="pull">Foundation once. The rhythm every week. The scan every month.</div>
+  <p class="asof">Accurate as of August 2026. Google moves on this constantly, so check anything time sensitive against your own account.</p>
+</div>
+
+<div class="sec">
+  <div class="sec-head"><h2>Part 1 &nbsp;·&nbsp; Foundation</h2></div>
+  <p class="sec-note">Do these once and get them exactly right. Everything else sits on top of them.</p>
+  <ul class="checks">
+    <li><span class="t">Verify the profile.</span><span class="d">Do exactly what Google's verification screen asks for, whether that is a video walkthrough or live prompts. Do not overthink it. Follow the screen and keep going until you are verified.</span></li>
+    <li><span class="t">Set your primary category, and get it exactly right.</span><span class="d">This is the biggest single switch on the whole profile. Set it to your core business, which for most of you is <b>Junk removal service</b>. Then add every honest secondary category for work you actually do: garbage collection, dumpster rental, demolition. The wrong primary category makes you invisible for the searches that matter, and nothing else you do will fix it.</span></li>
+    <li><span class="t">List every service, and write a real description for each one.</span><span class="d">Furniture removal, appliance haul off, hot tub removal, mattress disposal, estate cleanouts, hoarding cleanup, garage and basement, construction debris, commercial, storage unit cleanouts. Specific beats generic. Google's AI matches somebody asking who can haul out a hot tub to the profile that says it removes hot tubs.</span></li>
+    <li><span class="t">Make your name, address and phone match everywhere.</span><span class="d">Character for character, on your website and everywhere else you are listed.</span></li>
+    <li><span class="t">Fill in your hours. Claim 24/7 only if you truly answer.</span><span class="d">Complete hours signal a real, open business. If you answer around the clock, say so. If you do not, do not claim it.</span></li>
+    <li><span class="t">Show a real address if you have one.</span><span class="d">Hiding your address and running service area only costs you pack rank, even for a company that works out of a truck. If you have an address you actually operate from, show it.</span></li>
+    <li><span class="t">Link your website, and tag the link.</span><span class="d">Point the profile at your site with a tracking tag so the leads Google sends you show up in your analytics. Something like <b>yoursite.com/?utm_source=google&amp;utm_medium=organic&amp;utm_campaign=gbp</b>. Then when somebody asks whether the map is actually working, you have a number instead of an opinion.</span></li>
+    <li><span class="t">Stand up the Map Engine.</span><span class="d">A website whose only job is to rank the profile. Every page mirrors a category or a service and links back to the profile: a home page, one page per service, one page per town you serve, then pricing, reviews, about and FAQ.</span></li>
+  </ul>
+</div>
+
+<div class="sec">
+  <div class="sec-head"><h2>Part 2 &nbsp;·&nbsp; The weekly rhythm</h2></div>
+  <p class="sec-note">This is the part almost nobody does, and it is the part that actually moves you up.</p>
+  <ul class="checks">
+    <li><span class="t">Post real job photos, near daily, and post them in batches.</span><span class="d">Before and after shots from actual jobs. Every crew carries a phone and every job makes a before and an after, so this costs nothing but the habit. <b>Our own data: junk removal companies that post at least once a week, and post several photos rather than one, see 41% more verified phone calls and online bookings.</b> Both halves matter. One photo a week is not it, and thirty photos once a quarter is not it either. Google publishes no photo schedule; this is what we measure across the profiles we manage.</span></li>
+    <li><span class="t">Put up one Google Post a week.</span><span class="d">Posts do not lift rank directly, but they convert people already looking at you and they feed Google's AI current content. Schedule them so it is not a weekly decision.</span></li>
+    <li><span class="t">Run the review ask on every completed job, out loud, on site.</span><span class="d">At job completion, face to face, while the empty garage is right there in front of them. Use the exact words in the box below and have the crew memorize them.</span></li>
+    <li><span class="t">Always text from your own company number.</span><span class="d">A personal text from the number they already have saved converts far better than a blast from a review app shortcode they do not recognize.</span></li>
+    <li><span class="t">Run the four touch sequence, then stop.</span><span class="d">Text immediately. Email the next morning. Text again the day after that. One final text five days later. Then let it go. Four touches across about a week, across two channels. Chasing them past that costs you the goodwill you just earned and the referral behind it.</span></li>
+    <li><span class="t">Respond to every review, good and bad.</span><span class="d">A short, human reply on all of them. A calm answer to a bad review sells better than a wall of fives, because it shows how you handle a problem.</span></li>
+  </ul>
+
+  <div class="pull">&ldquo;Would you mind sharing how we did and what part of the area your job was? Please be as descriptive as possible to help future potential customers.&rdquo;</div>
+  <p>That one question does three jobs. It gets the service quality in their own words, it gets the neighborhood, which feeds Google's local matching, and it gives them a reason to write more than four words, because you are asking them to help the next person rather than to help you. Never write it for them. The whole point is that it is theirs.</p>
+  <p>Aim for a <b>4.7 to 4.9</b> average rather than a spotless 5.0. A perfect record with hundreds of reviews reads as curated, and it can convert worse than a few honest four star reviews sitting alongside the rest.</p>
+
+  <div class="sub">Where to ask, and where never to</div>
+  <div class="callout">
+    <p><b>Do not rotate where you ask.</b> Ask everybody for Google. Nearly every customer already has a Google account through an Android phone, Gmail or Chrome, and Google is the only platform that feeds the map pack. Never trade a Google review for a review somewhere else.</p>
+    <p><b>Diversify by where the job came from, not by rotation.</b> If the lead came from Angi, ask for the Angi review. Thumbtack, ask Thumbtack. Nextdoor, ask Nextdoor. They definitely have an account, because they used it to find you, and the review compounds the channel that sent you the job. Both Angi and Nextdoor tell pros to ask.</p>
+    <p><b>Never ask for a Yelp review.</b> Yelp's policy bars asking anyone at all, including friends and family. Soliciting can get you demoted in Yelp search and a public Consumer Alert banner on your page, and Yelp filters solicited reviews into the not recommended tab where they do not count anyway. Handle Yelp passively instead: claim the page, fill it out completely, and put the Yelp badge in your website footer and email signature so Yelp users find you on their own.</p>
+    <p><b>Never lose a review to the wrong platform.</b> The ask is the question, not the platform. If they do not have a Google account, say whatever is easiest for you, Google, Facebook, wherever you already have one. Facebook is the universal fallback, and a review somewhere beats no review anywhere.</p>
+    <p>If you use a review link page, put Google first with the alternatives underneath, and route by which platform they prefer. <b>Never route by star rating.</b> That is gating, and it breaks both Google's policy and FTC rules.</p>
+  </div>
+
+  <div class="pull">A review a week beats 50 reviews from two years ago.</div>
+</div>
+
+<div class="sec">
+  <div class="sec-head"><h2>Part 3 &nbsp;·&nbsp; Every month</h2></div>
+  <p class="sec-note">One sitting a month. This is where you find out whether any of it is working.</p>
+  <ul class="checks">
+    <li><span class="t">Run a geo-grid scan and write down your percentage.</span><span class="d">A geo-grid drops pins across your service area and checks where you land in the map pack at each one. Your number is <b>the percentage of the grid where you are in the top three</b>. It is the only ranking number worth tracking, because your rank differs in every neighborhood.</span></li>
+    <li><span class="t">Work your weakest cells.</span><span class="d">The neighborhoods where you are not in the top three are your to do list: more jobs there, photos taken there, a city page for that town.</span></li>
+    <li><span class="t">Count the reviews on the company sitting at number three.</span><span class="d">Beat that count. You do not need the most reviews in the world. You need to clear the floor in your market.</span></li>
+    <li><span class="t">Count that same company's local links, then close the gap and stop.</span><span class="d">Links are the cheapest gap to close in a weak market, not the engine. Do not go chasing link volume.</span></li>
+    <li><span class="t">Do one real local link action.</span><span class="d">Join a chamber, more than one inside about 70 miles if your market is competitive. Sponsor a local team, charity or event. Get on a local podcast, blog or news story. One a month is plenty.</span></li>
+    <li><span class="t">Publish one new city or service page on the Map Engine.</span><span class="d">Keep widening the coverage that feeds the profile.</span></li>
+  </ul>
+</div>
+
+<div class="sec">
+  <div class="sec-head"><h2>Part 4 &nbsp;·&nbsp; Never do these</h2></div>
+  <p class="sec-note">Google removed <b>13 million fake Business Profiles</b> and blocked <b>292 million policy-violating reviews</b> in 2025. It audits realness at a scale it never could before, so being unmistakably real is now the winning move rather than the boring one.</p>
+  <ul class="checks">
+    <li><span class="t">Never stuff keywords into your business name.</span><span class="d">Best Cheap Junk Removal Austin is not your name. It is a violation, and any competitor can report it.</span></li>
+    <li><span class="t">Never gate, buy or incentivize reviews.</span><span class="d">No ten dollars off for five stars. No sending happy customers to Google and unhappy ones to a private form. That is an FTC problem on top of a Google problem.</span></li>
+    <li><span class="t">Never use a fake or virtual address.</span><span class="d">No mailbox store, no address you do not actually operate from.</span></li>
+    <li><span class="t">Never buy cheap bulk link packages.</span><span class="d">They are a liability, not a lever.</span></li>
+  </ul>
+</div>
+
+<div class="sec">
+  <div class="sec-head"><h2>Part 5 &nbsp;·&nbsp; Earn the right to expand</h2></div>
+  <ul class="checks">
+    <li><span class="t">Report the cheaters above you.</span><span class="d">If a competitor ranked above you is stuffing keywords into their name or running a fake listing, report it through Google's Business Redressal Complaint form. Getting a spammer removed from above you is the fastest free rank gain there is.</span></li>
+    <li><span class="t">Do not open a second profile until you have earned it.</span><span class="d">All three of these have to be true first.</span></li>
+  </ul>
+  <ul class="dots">
+    <li>Your primary profile is pulling <b>15 or more reviews a month</b> on its own.</li>
+    <li>You are prepared for a new location to take <b>about 18 months</b> to mature.</li>
+    <li>You will <b>never</b> funnel reviews from your primary to the new location. That drains the profile that was working and you lose the thing that got you here.</li>
+  </ul>
+  <p class="note">Expansion is something you earn with a humming primary, not a shortcut around building one.</p>
+</div>
+
+<div class="sec">
+  <div class="sec-head"><h2>Start here &nbsp;·&nbsp; your first week</h2></div>
+  <p class="sec-note">If the list above feels like a lot, do these five things in the next seven days. They are the ones that pay first.</p>
+  <ul class="checks">
+    <li><span class="t">Open your profile and check your primary category today.</span><span class="d">It takes two minutes and it is the biggest lever in this entire document. If it is wrong, nothing else you do matters much.</span></li>
+    <li><span class="t">Show your address if you have one, and fill in your hours.</span><span class="d">Two more settings, both one time, both worth real pack rank.</span></li>
+    <li><span class="t">Take photos on every job this week and post them in batches.</span><span class="d">You do not need a plan for this. Before and after, every job, several at a time.</span></li>
+    <li><span class="t">Teach the crew the review ask, word for word.</span><span class="d">Then run the four touch sequence on the very next completed job. One job is enough to prove the system to yourself.</span></li>
+    <li><span class="t">Run one geo-grid scan and write the number down.</span><span class="d">You cannot tell whether any of this worked without a starting number. Get it this week, before you change anything else.</span></li>
+  </ul>
+</div>
+
+<div class="sec backpage">
+  <div class="sec-head"><h2>Part 6 &nbsp;·&nbsp; If you would rather we ran it</h2></div>
+  <p class="sec-note">It is three jobs, not one: the profile kept right, the ads watched, the phone answered fast. Most owners do one well.</p>
+  <div class="offer">
+    <div class="badges">
+      <span class="pill gold">Only 10 spots</span>
+      <span class="pill ghost">62% off</span>
+    </div>
+    <h3>Your Business Profile, your LSAs, and Jenny answering every call.</h3>
+
+    <div class="incl">
+      <span class="row">Google Business Profile management <b>$750 / mo</b></span>
+      <span class="row">Jenny, our junk removal AI agent <b>$750 / mo</b></span>
+      <span class="row">Local Services Ads management <b>$500 / mo</b></span>
+      <div class="totrow">Bought separately <b>$2,000 / mo</b></div>
+    </div>
+
+    <div class="hero">
+      <div class="was">Normally <s>$2,000 per month</s></div>
+      <div class="now">$750</div>
+      <div class="per">per month, all three</div>
+      <div class="save">You keep $1,250 every month. $7,500 across the six months.</div>
+      <div class="after">Locked six months. Then $1,000 per month, still half of retail.</div>
+    </div>
+
+    <ul class="dots">
+      <li><b>Profile management includes</b> the full build out, the weekly review ask, the posting rhythm, link outreach, spam monitoring, and a monthly geo-grid report.</li>
+      <li><b>No ranking guarantees.</b> Anyone promising you the top spot is lying, and Google says the same thing.</li>
+      <li><b>No money back guarantee on this one.</b> You are getting the discount instead.</li>
+    </ul>
+    <p class="claim">This class goes out to nearly 10,000 YouTube subscribers, so far more people will see it than were on the call. Ten spots, first come. Comment on the video or text <b>Shane at 907-982-8460</b>.</p>
+  </div>
+
+  <div style="page-break-inside:avoid;break-inside:avoid;">
+<div class="nextclass">
+    <b>Next class: The Junk Truck Masterclass.</b> Tuesday, September 1, 2026, 2:30 PM ET. What to buy, what it costs, and how to finance it.
+    <div class="reg">Register once for the whole series at <b>masterclass.junkra.com</b></div>
+  </div>
+
+  <div class="sources"><b>Sources:</b> Google, New ways we are protecting businesses on Maps (2025 enforcement figures) &nbsp;·&nbsp; Yelp Support Center, Don't Ask for Reviews &nbsp;·&nbsp; Angi and Nextdoor for Business, How to Ask Customers for Reviews &nbsp;·&nbsp; Whitespark Local Search Ranking Factors. Retrieved August 2026.</div>
+  <div class="signoff">JRA Junk Removal Masterclass Series &nbsp;·&nbsp; Lee Godbold, Junk Removal Authority</div>
+</div>
+</div>
+
+</body>
+</html>

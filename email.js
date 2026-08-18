@@ -146,7 +146,7 @@ export async function sendLsaAssetsEmail({ name, email, session, checklistUrl, s
       <a href="${checklistUrl}" style="background:#2563eb;color:#fff;text-decoration:none;padding:13px 22px;border-radius:10px;display:inline-block;font-weight:600">Download the checklist (PDF)</a>
     </p>
     <p style="margin:0 0 20px">
-      <a href="${slidesUrl}" style="background:#0f172a;color:#fff;text-decoration:none;padding:13px 22px;border-radius:10px;display:inline-block;font-weight:600">Download the 45 slide deck (PDF)</a>
+      <a href="${slidesUrl}" style="background:#0f172a;color:#fff;text-decoration:none;padding:13px 22px;border-radius:10px;display:inline-block;font-weight:600">Download the slide deck (PDF)</a>
     </p>
     <p style="margin:0 0 16px;font-size:14px;color:#475569">Direct links, if the buttons don't work:<br>
       <a href="${checklistUrl}">${checklistUrl}</a><br>
@@ -163,6 +163,53 @@ export async function sendLsaAssetsEmail({ name, email, session, checklistUrl, s
   return send({
     to: email,
     subject: "Your LSA Migration checklist and slides",
+    html,
+    headers: listUnsubHeaders(email),
+  });
+}
+
+// ── Transactional: Own the Map collateral delivery (the /map page) ──────────
+// Same contract as sendLsaAssetsEmail, different class. Kept as its own
+// function so the two classes' copy can drift without touching each other.
+export async function sendMapAssetsEmail({ name, email, session, checklistUrl, slidesUrl }) {
+  session = session || currentSession();
+  const when = session ? formatWhen(session) : null;
+  const firstName = firstNameOf(name);
+  const topic = session ? topicLabel(session) : "";
+  const nextLine = when
+    ? `<p style="margin:0 0 16px">You're also registered for the next live class, <strong>${topic}</strong>, <strong>${when.full}</strong>. We'll email you a reminder before we go live.</p>`
+    : `<p style="margin:0 0 16px">You're on the list for the next live class. We'll email you the date and the join link.</p>`;
+  const joinUrl = session?.zoomJoinUrl || webinar.zoomJoinUrl;
+  const joinLine = joinUrl
+    ? `<p style="margin:0 0 16px;color:#475569;font-size:14px">Same Zoom link every class: <a href="${joinUrl}">${joinUrl}</a></p>`
+    : "";
+
+  const html = `
+  <div style="font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;max-width:560px;margin:0 auto;color:#0f172a;font-size:16px;line-height:1.6">
+    <p style="margin:0 0 16px">Hi ${firstName},</p>
+    <p style="margin:0 0 18px">Here are both files from <strong>Own the Map</strong>. That's how junk removal owners rank in the Google map pack, and this is everything we covered.</p>
+    <p style="margin:0 0 10px">
+      <a href="${checklistUrl}" style="background:#2563eb;color:#fff;text-decoration:none;padding:13px 22px;border-radius:10px;display:inline-block;font-weight:600">Download the checklist (PDF)</a>
+    </p>
+    <p style="margin:0 0 20px">
+      <a href="${slidesUrl}" style="background:#0f172a;color:#fff;text-decoration:none;padding:13px 22px;border-radius:10px;display:inline-block;font-weight:600">Download the slide deck (PDF)</a>
+    </p>
+    <p style="margin:0 0 16px;font-size:14px;color:#475569">Direct links, if the buttons don't work:<br>
+      <a href="${checklistUrl}">${checklistUrl}</a><br>
+      <a href="${slidesUrl}">${slidesUrl}</a>
+    </p>
+    <p style="margin:0 0 16px">If you only do one thing this week, open your profile and check your <strong>primary category</strong>. It's the biggest single lever in the whole checklist, it takes two minutes, and if it's wrong nothing else you do moves the needle much.</p>
+    ${nextLine}
+    ${joinLine}
+    <p style="margin:0 0 16px">The offer from the class is still open: ten spots, first come. Business Profile management, LSAs, and Jenny answering every call, $750 per month locked for six months, then $1,000 per month. That's $1,250 off every month against buying them separately. No ranking guarantees, no money back guarantee. To check availability, text Shane at <strong>907-982-8460</strong>.</p>
+    <p style="margin:0 0 4px">Talk soon,</p>
+    <p style="margin:0 0 16px"><strong>${webinar.hostName}</strong><br>${webinar.hostTitle}</p>
+    ${marketingFooter(email)}
+  </div>`;
+
+  return send({
+    to: email,
+    subject: "Your Own the Map checklist and slides",
     html,
     headers: listUnsubHeaders(email),
   });

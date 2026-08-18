@@ -10,6 +10,7 @@ import {
   sendReminderEmail,
   sendAttendeeNotification,
   sendLsaAssetsEmail,
+  sendMapAssetsEmail,
   hasPostalAddress,
 } from "./email.js";
 import { startReminderScheduler } from "./reminders.js";
@@ -204,6 +205,93 @@ app.post("/api/lsa-signup", async (req, res) => {
   return res.json({
     ok: true,
     downloads: LSA_ASSETS,
+    when: session ? formatWhen(session).full : null,
+    topic: session ? (session.topic || null) : null,
+    sessionId: session?.id || null,
+    zoomJoinUrl: session?.zoomJoinUrl || webinar.zoomJoinUrl || null,
+  });
+});
+
+// ── /map lead capture: the Own the Map checklist + slide deck ───────────────
+// Identical machinery to /lsa above (register-once, consent, audit log, auto
+// attach to the next session). Separate source tag so the export shows which
+// recording actually produced the signup. SMS is collect-only here too.
+const MAP_SOURCE = "map-checklist";
+const MAP_ASSETS = {
+  checklist: "/downloads/own-the-map-checklist.pdf",
+  slides: "/downloads/own-the-map-masterclass-slides.pdf",
+};
+
+app.get("/map", (_req, res) => res.sendFile(path.join(__dirname, "public", "map.html")));
+
+app.post("/api/map-signup", async (req, res) => {
+  const name = String(req.body?.name || "").trim().slice(0, 120);
+  const email = normalizeEmail(req.body?.email).slice(0, 200);
+  const phone = String(req.body?.phone || "").trim().slice(0, 40);
+  const smsOptIn = Boolean(req.body?.smsOptIn);
+
+  if (!name) return res.status(400).json({ error: "Please enter your full name." });
+  if (!EMAIL_RE.test(email))
+    return res.status(400).json({ error: "Please enter a valid email." });
+
+  const ip = (req.headers["x-forwarded-for"] || req.ip || "").toString().split(",")[0].trim();
+  const utm = String(req.body?.source || "").slice(0, 40);
+  const source = utm ? `${MAP_SOURCE}:${utm}` : MAP_SOURCE;
+
+  const session = currentSession();
+
+  const record = {
+    name,
+    email,
+    phone,
+    smsOptIn,
+    sessionId: session?.id || null,
+    sessionISO: session?.startsAtISO || null,
+    registeredAt: new Date().toISOString(),
+    source,
+    ip,
+  };
+
+  const isNew = !getSubscriber(email);
+  try {
+    fs.appendFileSync(REG_FILE, JSON.stringify(record) + "\n");
+    upsertSubscriber({
+      email,
+      name,
+      source,
+      ip,
+      sessionId: session?.id || null,
+      phone,
+      smsOptIn, // consent banked only
+    });
+  } catch (err) {
+    console.error("[map] write failed:", err.message);
+    return res.status(500).json({ error: "Something went wrong. Try again." });
+  }
+
+  sendMapAssetsEmail({
+    name,
+    email,
+    session,
+    checklistUrl: `${PUBLIC_BASE_URL}${MAP_ASSETS.checklist}`,
+    slidesUrl: `${PUBLIC_BASE_URL}${MAP_ASSETS.slides}`,
+  }).catch((e) => console.error("[map] email error:", e?.message));
+
+  if (isNew && NOTIFY_EMAILS.length) {
+    sendAttendeeNotification({
+      name,
+      email,
+      count: stats().total,
+      recipients: NOTIFY_EMAILS,
+      attendeesUrl: attendeesUrl(),
+      when: session ? formatWhen(session).full : "",
+      sourceLabel: "Own the Map checklist page (/map)",
+    }).catch((e) => console.error("[map] notify error:", e?.message));
+  }
+
+  return res.json({
+    ok: true,
+    downloads: MAP_ASSETS,
     when: session ? formatWhen(session).full : null,
     topic: session ? (session.topic || null) : null,
     sessionId: session?.id || null,
@@ -497,6 +585,8 @@ app.get("/attendees", (req, res) => {
     const src = String(r.source || "");
     if (src.startsWith("lsa-checklist"))
       return '<span class="pill src">LSA checklist</span>';
+    if (src.startsWith("map-checklist"))
+      return '<span class="pill src">Own the Map checklist</span>';
     return src ? esc(src) : '<span class="dim">registration</span>';
   };
   const body = rows.length
